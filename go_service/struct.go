@@ -1,10 +1,5 @@
 package main
 
-type FakeUser struct {
-	Username string `faker:"first_name"`
-	Email    string `faker:"email"`
-	Pwd      string `faker:"password"`
-}
 
 type UserJS struct {
 	ID       int    `json:"id"`
@@ -12,3 +7,10 @@ type UserJS struct {
 	Email    string `json:"email"`
 	Pwd      string `json:"pwd"`
 }
+
+
+const ( 
+	path_env = "../config/.env"
+	path_db_config = "../config/db_config.yaml"
+	path_fakesintjson = "../data/dataperson.json"
+)

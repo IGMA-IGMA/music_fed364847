@@ -10,12 +10,12 @@ import (
 
 func gensintjson(n int) error {
 
-	_, err := os.Stat("dataperson.json")
+	_, err := os.Stat(path_fakesintjson)
 	if !os.IsExist(err) {
-		os.Remove("dataperson.json")
+		os.Remove(path_fakesintjson)
 	}
 
-	file, err := os.Create("dataperson.json")
+	file, err := os.Create(path_fakesintjson)
 	if err != nil {
 		fmt.Println(err)
 	}

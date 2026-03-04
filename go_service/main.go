@@ -1,5 +1,9 @@
 package main
 
+import (
+	"fmt"
+)
+
 func main() {
-	gensintjson(50000)
+	fmt.Println(NewConfig())
 }
