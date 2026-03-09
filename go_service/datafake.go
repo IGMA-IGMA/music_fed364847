@@ -2,23 +2,24 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 
 	"github.com/go-faker/faker/v4"
 )
 
 func gensintjson(n int) error {
+	_, err := os.Stat(path_data_dir)
+	if os.IsExist(err) {
+		err = os.Mkdir(path_data_dir, os.ModePerm)
+	}
 
-	_, err := os.Stat(path_fakesintjson)
+	_, err = os.Stat(path_fakesintjson)
 	if !os.IsExist(err) {
 		os.Remove(path_fakesintjson)
 	}
 
 	file, err := os.Create(path_fakesintjson)
-	if err != nil {
-		fmt.Println(err)
-	}
+	CheckError(err)
 	defer file.Close()
 	encoder := json.NewEncoder(file)
 	encoder.SetIndent("", " ")

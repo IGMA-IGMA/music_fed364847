@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
-
 func main() {
-	fmt.Println(NewConfig())
+	cfg, _ := ParsConfig()
+	NewConnect(cfg)
 }
