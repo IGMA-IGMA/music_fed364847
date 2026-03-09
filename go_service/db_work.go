@@ -62,3 +62,4 @@ func NewConnect(cfg *DBConfig) (*pgxpool.Pool, error) {
 func (db *PostgresDB) Close() {
 	db.pool.Close()
 }
+.
