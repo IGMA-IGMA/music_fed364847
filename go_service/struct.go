@@ -16,7 +16,7 @@ type DBConfig struct {
 	DBPassword string `yaml:"password"`
 }
 
-const ( 
+const (
 	path_env = "../config/.env"
 	path_db_config = "../config/db_config.yaml"
 	path_fakesintjson = "../data/dataperson.json"
