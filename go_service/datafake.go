@@ -7,7 +7,10 @@ import (
 )
 
 func gensintjson(n int) error {
-	file, _ := createFile(path_data_dir, path_fakesintjson)
+	file, err := createFile(path_data_dir, path_fakesintjson)
+	if err != nil {
+		return err
+	}
 
 	defer file.Close()
 	encoder := json.NewEncoder(file)

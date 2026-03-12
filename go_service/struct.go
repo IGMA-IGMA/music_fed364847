@@ -9,7 +9,7 @@ type UserJS struct {
 }
 
 type DBConfig struct {
-	DBHost     string `yaml:"host"`
+	DBHost     string `yaml:"host"` 
 	DBPort     string `yaml:"port"`
 	DBName     string `yaml:"name"`
 	DBUser     string `yaml:"user"`
@@ -22,4 +22,5 @@ const (
 	path_fakesintjson = "../data/dataperson.json"
 	path_data_dir = "../data"
 	path_log_dir = "../logs"
+	path_conn_db = "postgresql://%s:%s@%s:%s/%s"
 )

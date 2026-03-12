@@ -24,7 +24,6 @@ type Storage interface {
 }
 
 func ParsConfig() (*DBConfig, error) {
-
 	if err := godotenv.Load(path_env); err != nil {
 		log.Println("Note: .env file not found, using system env")
 	}
@@ -46,7 +45,7 @@ func ParsConfig() (*DBConfig, error) {
 }
 
 func NewConnect(cfg *DBConfig) (*pgxpool.Pool, error) {
-	connStr := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", cfg.DBUser, cfg.DBPassword, cfg.DBHost, cfg.DBPort, cfg.DBName)
+	connStr := fmt.Sprintf(path_conn_db, cfg.DBUser, cfg.DBPassword, cfg.DBHost, cfg.DBPort, cfg.DBName)
 
 	db, err := pgxpool.New(context.Background(), connStr)
 	CheckError(err)
@@ -55,7 +54,6 @@ func NewConnect(cfg *DBConfig) (*pgxpool.Pool, error) {
 		return nil, err
 	}
 	db.Exec(context.Background(), CreateTable())
-	fmt.Println(1)
 	return db, nil
 }
 

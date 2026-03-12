@@ -23,5 +23,5 @@ func NewLogger(filename string) (*Logger, error) {
 		zapcore.NewCore(fileEncoder, writer, defaultLogLevel),
 	)
 	logger = zap.New(core, zap.AddCaller(), zap.AddStacktrace(zapcore.ErrorLevel))
-	
+	return logger, nil
 }
