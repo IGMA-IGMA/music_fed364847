@@ -1,10 +1,11 @@
 package main
 
 type UserJS struct {
-	ID       int    `json:"id"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Pwd      string `json:"pwd"`
+	ID        int    `json:"id"`
+	Username  string `json:"username"`
+	Email     string `json:"email"`
+	Pwd       string `json:"pwd"`
+	CreatedAt string `json:"create_at,omitempty"`
 }
 
 type DBConfig struct {
@@ -23,4 +24,3 @@ const (
 	LogDirPath         = "../logs"
 	DBConnStringFormat = "postgresql://%s:%s@%s:%s/%s"
 )
-
