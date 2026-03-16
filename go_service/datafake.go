@@ -7,7 +7,7 @@ import (
 )
 
 func gensintjson(n int) error {
-	file, err := createFile(path_data_dir, path_fakesintjson)
+	file, err := createFile(DataDirPath, FakeDataJSONPath)
 	if err != nil {
 		return err
 	}
@@ -18,8 +18,8 @@ func gensintjson(n int) error {
 
 	users := make([]*UserJS, 0, n)
 	for i := 1; i <= n; i++ {
-		user_js := UserJS{ID: i, Username: faker.Username(), Email: faker.Email(), Pwd: faker.Password()}
-		users = append(users, &user_js)
+		userJSON := UserJS{ID: i, Username: faker.Username(), Email: faker.Email(), Pwd: faker.Password()}
+		users = append(users, &userJSON)
 	}
 
 	encoder.Encode(users)

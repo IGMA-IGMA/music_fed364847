@@ -24,11 +24,11 @@ type Storage interface {
 }
 
 func ParsConfig() (*DBConfig, error) {
-	if err := godotenv.Load(path_env); err != nil {
+	if err := godotenv.Load(EnvFilePath); err != nil {
 		log.Println("Note: .env file not found, using system env")
 	}
 
-	data, err := os.ReadFile(path_db_config)
+	data, err := os.ReadFile(DBConfigPath)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func ParsConfig() (*DBConfig, error) {
 }
 
 func NewConnect(cfg *DBConfig) (*pgxpool.Pool, error) {
-	connStr := fmt.Sprintf(path_conn_db, cfg.DBUser, cfg.DBPassword, cfg.DBHost, cfg.DBPort, cfg.DBName)
+	connStr := fmt.Sprintf(DBConnStringFormat, cfg.DBUser, cfg.DBPassword, cfg.DBHost, cfg.DBPort, cfg.DBName)
 
 	db, err := pgxpool.New(context.Background(), connStr)
 	CheckError(err)

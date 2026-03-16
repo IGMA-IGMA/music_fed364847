@@ -11,23 +11,22 @@ func createFile(dir string, filename string) (*os.File, error) {
 		return nil, err
 	}
 
-
-	path_file := file_path(dir, filename)
-	_, err = os.Stat(path_file)
+	pathFile := FileJoin(dir, filename)
+	_, err = os.Stat(pathFile)
 	if err == nil {
-		err := os.Remove(path_file)
-		if err != nil{
+		err := os.Remove(pathFile)
+		if err != nil {
 			return nil, err
 		}
-		
+
 	}
-	file, err := os.Create(path_file)
+	file, err := os.Create(pathFile)
 	if err != nil {
 		return nil, err
 	}
 	return file, nil
 }
 
-func file_path(dir string, filename string) string {
+func FileJoin(dir string, filename string) string {
 	return filepath.Join(dir, filename)
 }

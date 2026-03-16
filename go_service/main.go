@@ -1,5 +1,10 @@
 package main
 
+import "go.uber.org/zap"
+
 func main() {
-	gensintjson(10000)
+	l, _ := NewLogger("log.json")
+	l.Info("Hello", zap.String("name", "Arkady"))
+	l.Info("Hello", zap.String("name", "rkady"))
+
 }
