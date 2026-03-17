@@ -3,6 +3,7 @@ import re
 import yaml
 from dotenv import load_dotenv
 from pathlib import Path
+import psycopg2
 
 class YAMLEnvParser:
     def __init__(self, yaml_path='config/db_config.yaml', env_path='config/.env'):
@@ -39,6 +40,44 @@ class YAMLEnvParser:
         else:
             return data
     
+    def save_to_yaml(self, output_dir='output_configs'):
+        output_path = Path(output_dir)
+        output_path.mkdir(exist_ok=True)
+        filepath = output_path / 'parsed_config.yaml'
+        with open(filepath, 'w', encoding='utf-8') as f:
+            yaml.dump(self.parsed_config, f, allow_unicode=True, default_flow_style=False)
+    
+    def save_to_db(self, table_name='config_data'):
+        params = self.get_connection_params()
+        config = self.parsed_config
+        conn = psycopg2.connect(**params)
+        cursor = conn.cursor()
+        insert_query = f"""
+        INSERT INTO {table_name} (host, port, database_name, username, password)
+        VALUES (%s, %s, %s, %s, %s)
+        RETURNING id;
+        """
+            
+        data = (
+            config['host'],
+            int(config['port']),
+            config['name'],
+            config['user'],
+            config['password']
+        )
+            
+        cursor.execute(insert_query, data)
+        new_id = cursor.fetchone()[0]
+        conn.commit()
+            
+        cursor.close()
+        conn.close()
+        return new_id
+    
+    def save_all(self, output_dir='output_configs'):
+        yaml_path = self.save_to_yaml(output_dir)
+        db_id = self.save_to_db()
+
     def get_config(self):
         return self.parsed_config
     
