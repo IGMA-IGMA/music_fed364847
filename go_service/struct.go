@@ -1,11 +1,13 @@
 package main
 
+import "time"
+
 type UserJS struct {
-	ID        int    `json:"id"`
-	Username  string `json:"username"`
-	Email     string `json:"email"`
-	Pwd       string `json:"pwd"`
-	CreatedAt string `json:"create_at,omitempty"`
+	ID        int       `json:"id"`
+	Username  string    `json:"username"`
+	Email     string    `json:"email"`
+	Pwd       string    `json:"pwd"`
+	CreatedAt time.Time `json:"create_at,omitempty"`
 }
 
 type DBConfig struct {
