@@ -8,17 +8,16 @@ import (
 	"go.uber.org/zap"
 )
 
-
-
 type PostgresDB struct {
 	pool *pgxpool.Pool
 }
 
 type StorageDB interface {
-	CreateUser(ctx context.Context, user *UserJS)  //C
-	ReadUser(ctx context.Context, user *UserJS)    //R
-	DeleateUser(ctx context.Context, user *UserJS) //D
-	UpdateUser(ctx context.Context, user *UserJS)  //U
+	CreateUser(ctx context.Context, user *UserJS) error                 // C
+	ReadUserByEmail(ctx context.Context, user *UserJS) (*UserJS, error) // R
+	ReadUserById(ctx context.Context, user *UserJS) (*UserJS, error)    // R
+	DeleateUser(ctx context.Context, user *UserJS) error                // D
+	UpdateUser(ctx context.Context, user *UserJS) error                 // U
 
 	Close()
 }
@@ -51,7 +50,7 @@ func (db *PostgresDB) Close() {
 }
 
 func (db *PostgresDB) CreateUser(ctx context.Context, user *UserJS) error {
-
+	user.Pwd, _ = HashPassword(user.Pwd)
 	err := db.pool.QueryRow(ctx, QueryCreateUser(),
 		user.Username,
 		user.Email,
@@ -63,20 +62,18 @@ func (db *PostgresDB) CreateUser(ctx context.Context, user *UserJS) error {
 		&user.Pwd,
 		&user.CreatedAt,
 	)
-
-
 	if err != nil {
-		loggerDB.Error("Create", 
-		zap.String("username", user.Username),
-		zap.String("email", user.Email),
+		loggerDB.Error("Create",
+			zap.String("username", user.Username),
+			zap.String("email", user.Email),
 		)
 		return fmt.Errorf("ошибка создания пользователя: %w", err)
 	}
 
-	loggerDB.Info("Create", 
+	loggerDB.Info("Create",
 		zap.String("username", user.Username),
 		zap.String("email", user.Email),
-		)
+	)
 
 	return nil
 }

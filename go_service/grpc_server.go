@@ -33,7 +33,7 @@ func (s *userServer) CreateUser(ctx context.Context, req *pb.CreateUserRequest) 
         Email:    req.GetUserEmail(),
         Pwd:      req.GetUserPassword(),
     }
-
+    
     // Сохранение в БД
     err := db.CreateUser(context.Background(), user)
     if err != nil {
