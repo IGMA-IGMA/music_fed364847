@@ -6,6 +6,7 @@ option go_package = "gen/serverGRPC";
 
 service ApiUsers {
     rpc CreateUser (CreateUserRequest) returns (StatusCode);
+    rpc InfoUser ()
 }
 
 message CreateUserRequest {  
@@ -18,3 +19,14 @@ message StatusCode {
     int32 code = 1;  
 }
 
+message UserOutput {
+    int id = 1;
+    string user_name = 2;    
+    string user_email = 3;   
+}
+
+message UserInput {
+    string user_name = 1;    
+    string user_email = 2;   
+    string user_password = 3;
+}

@@ -56,3 +56,4 @@ func (l *Logger) Fatal(msg string, fields ...zap.Field) {
 func (l *Logger) Debug(msg string, fields ...zap.Field) {
 	l.logger.Debug(msg, fields...)
 }
+

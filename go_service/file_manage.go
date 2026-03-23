@@ -1,11 +1,11 @@
 package main
 
 import (
-	"log"
 	"os"
 	"path/filepath"
 
 	"github.com/joho/godotenv"
+	"go.uber.org/zap"
 	"gopkg.in/yaml.v3"
 )
 
@@ -37,7 +37,7 @@ func FileJoin(dir string, filename string) string {
 
 func ParsConfig() (*DBConfig, error) {
 	if err := godotenv.Load(EnvFilePath); err != nil {
-		log.Println("Note: .env file not found, using system env")
+		loggerFileManage.Error("Note: .env file not found, using system env")
 	}
 
 	data, err := os.ReadFile(DBConfigPath)
@@ -50,6 +50,7 @@ func ParsConfig() (*DBConfig, error) {
 	config := &DBConfig{}
 	err = yaml.Unmarshal([]byte(replacedData), config)
 	if err != nil {
+		loggerFileManage.Error("ENV: The configuration was not received successfully", zap.String("error", err.Error()), zap.String("EnvFile", DBConfigPath))
 		return nil, err
 	}
 

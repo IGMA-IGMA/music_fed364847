@@ -8,13 +8,7 @@ import (
 	"go.uber.org/zap"
 )
 
-var (
-	loggerDB *Logger
-)
 
-func initLog() {
-	loggerDB = NewLogger("db_info.json")
-}
 
 type PostgresDB struct {
 	pool *pgxpool.Pool
