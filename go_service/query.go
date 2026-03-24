@@ -33,8 +33,13 @@ func QueryDeleteUser() string {
 	return `DELETE FROM users WHERE username = $1`
 }
 
-func QueryInfoUser() string {
+func QueryInfoUserEmail() string {
 	return `SELECT * FROM users WHERE email=$1`
+}
+
+
+func QueryInfoUserByName() string {
+	return `SELECT * FROM users WHERE username=$1`
 }
 
 func QueryDropTable() string{
