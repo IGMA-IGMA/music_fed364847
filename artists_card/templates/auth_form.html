@@ -2,232 +2,105 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Авторизация</title>
+    <title>Вход</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #eef;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            height: 100vh;
+            margin: 0;
         }
-        
-        .container {
+        .auth-box {
             background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 450px;
-            animation: fadeIn 0.5s ease-out;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 300px;
         }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 28px;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 500;
-            font-size: 14px;
-        }
-        
         input {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            outline: none;
+            padding: 8px;
+            margin: 8px 0;
+            box-sizing: border-box;
         }
-        
-        input:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
         button {
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 10px;
+            background: #333;
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        button:active {
-            transform: translateY(0);
-        }
-        
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        
         .message {
-            margin-top: 20px;
-            padding: 12px;
-            border-radius: 10px;
-            display: none;
-            animation: slideIn 0.3s ease-out;
+            margin-top: 10px;
+            padding: 8px;
             text-align: center;
-            font-weight: 500;
         }
-        
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
         .error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: #ffdddd;
+            color: red;
         }
-        
-        .loading {
-            text-align: center;
-            color: #667eea;
-            font-size: 14px;
-            margin-top: 15px;
-            display: none;
-        }
-        
-        .loading.show {
-            display: block;
+        .success {
+            background: #ddffdd;
+            color: green;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>🔐 Авторизация</h2>
-        
-        <form id="authForm">
-            {% csrf_token %}
-            
-            <div class="form-group">
-                <label for="username">👤 Логин:</label>
-                <input type="text" id="username" name="username" required autocomplete="off" placeholder="Введите логин">
-            </div>
-            
-            <div class="form-group">
-                <label for="password">🔒 Пароль:</label>
-                <input type="password" id="password" name="password" required placeholder="Введите пароль">
-            </div>
-            
-            <div class="form-group">
-                <label for="email">📧 Email:</label>
-                <input type="email" id="email" name="email" required placeholder="example@mail.com">
-            </div>
-            
-            <button type="submit">Войти</button>
-        </form>
-        
-        <div id="message" class="message"></div>
-        <div id="loading" class="loading">Отправка данных...</div>
-    </div>
+<div class="auth-box">
+    <h2>Вход</h2>
+    <form id="authForm">
+        {% csrf_token %}
+        <label>Логин</label>
+        <input type="text" name="username" required>
 
-    <script>
-        document.getElementById('authForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const form = this;
-            const messageDiv = document.getElementById('message');
-            const loadingDiv = document.getElementById('loading');
-            const submitButton = form.querySelector('button');
-            
-            // Показываем загрузку
-            loadingDiv.classList.add('show');
-            submitButton.disabled = true;
-            messageDiv.style.display = 'none';
-            
-            const formData = new FormData(form);
-            
-            try {
-                const response = await fetch('', {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                    }
-                });
-                
-                const data = await response.json();
-                
-                if (data.status === 'success') {
-                    messageDiv.className = 'message success';
-                    messageDiv.textContent = '✅ ' + data.message;
-                    messageDiv.style.display = 'block';
-                    form.reset();
-                    
-                    setTimeout(() => {
-                        messageDiv.style.display = 'none';
-                    }, 3000);
-                } else {
-                    messageDiv.className = 'message error';
-                    messageDiv.textContent = '❌ ' + (data.message || 'Ошибка авторизации');
-                    messageDiv.style.display = 'block';
-                }
-            } catch (error) {
-                messageDiv.className = 'message error';
-                messageDiv.textContent = '❌ Ошибка соединения с сервером';
-                messageDiv.style.display = 'block';
-            } finally {
-                loadingDiv.classList.remove('show');
-                submitButton.disabled = false;
+        <label>Пароль</label>
+        <input type="password" name="password" required>
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+
+        <button type="submit">Войти</button>
+    </form>
+    <div id="message" class="message"></div>
+    <p style="margin-top: 15px; text-align: center;">
+        <a href="{% url 'home' %}">← На главную</a>
+    </p>
+</div>
+
+<script>
+    document.getElementById('authForm').onsubmit = async function(e) {
+        e.preventDefault();
+        let formData = new FormData(this);
+        let btn = this.querySelector('button');
+        btn.disabled = true;
+        btn.innerText = 'Отправка...';
+
+        try {
+            let response = await fetch('', {
+                method: 'POST',
+                body: formData,
+                headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}
+            });
+            let data = await response.json();
+            let msgDiv = document.getElementById('message');
+            if (data.status === 'success') {
+                msgDiv.className = 'message success';
+                msgDiv.innerText = '✅ ' + data.message;
+                this.reset();
+            } else {
+                msgDiv.className = 'message error';
+                msgDiv.innerText = '❌ ' + (data.message || 'Ошибка');
             }
-        });
-    </script>
+        } catch(err) {
+            document.getElementById('message').innerText = 'Ошибка соединения';
+        }
+        btn.disabled = false;
+        btn.innerText = 'Войти';
+    };
+</script>
 </body>
 </html>

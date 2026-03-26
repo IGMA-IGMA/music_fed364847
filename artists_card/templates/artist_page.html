@@ -5,95 +5,103 @@
     <title>{{ artist.name }}</title>
     <style>
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin: 0;
+            background: #fafafa;
         }
-        .card {
+        .navbar {
+            background: #222;
+            padding: 10px;
+            color: white;
+        }
+        .navbar a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
             background: white;
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            text-align: center;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
         }
-        .photo {
-            width: 200px;
-            height: 200px;
+        .artist-header {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+        .artist-photo img {
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-            margin: 0 auto 20px;
-            overflow: hidden;
-            border: 5px solid #667eea;
-        }
-        .photo img {
-            width: 100%;
-            height: 100%;
             object-fit: cover;
         }
-        .no-photo {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 80px;
-            font-weight: bold;
-            margin: 0 auto 20px;
-            border: 5px solid white;
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-        .listeners {
-            background: #f0f0f0;
-            padding: 10px 20px;
-            border-radius: 30px;
-            display: inline-block;
-            font-weight: bold;
-            color: #555;
-        }
-        .bio {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 15px;
+        .song-list {
             margin-top: 20px;
-            text-align: left;
-            line-height: 1.6;
+        }
+        .song-item {
+            border-bottom: 1px solid #eee;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .song-item:hover {
+            background: #f0f0f0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        {% if artist.photo %}
-        <div class="photo">
-            <img src="{{ artist.photo.url }}" alt="{{ artist.name }}">
+
+<div class="navbar">
+    <a href="{% url 'home' %}">Главная</a>
+    <a href="{% url 'global_search' %}">Поиск</a>
+    <a href="{% url 'auth' %}">Войти</a>
+    {% if user.is_authenticated %}
+        <a href="/admin/">Админка</a>
+    {% endif %}
+</div>
+
+<div class="container">
+    <a href="{% url 'home' %}" class="back-link">← Назад</a>
+
+    <div class="artist-header">
+        <div class="artist-photo">
+            {% if artist.photo %}
+                <img src="{{ artist.photo.url }}" alt="{{ artist.name }}">
+            {% else %}
+                <div style="width:150px;height:150px;background:#ccc;display:flex;align-items:center;justify-content:center;">Нет фото</div>
+            {% endif %}
         </div>
+        <div>
+            <h1>{{ artist.name }}</h1>
+            <p><strong>Средних прослушиваний в месяц:</strong> {{ artist.listeners }}</p>
+            {% if artist.bio %}
+                <p>{{ artist.bio }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="song-list">
+        <h2>Песни ({{ songs_count }})</h2>
+        {% if songs %}
+            {% for song in songs %}
+                <div class="song-item" onclick="alert('Сейчас играет: {{ artist.name }} — {{ song.title }}')">
+                    <strong>{{ song.title }}</strong><br>
+                    Прослушиваний: {{ song.plays }} | Длительность: {{ song.duration|default:"3:45" }}
+                </div>
+            {% endfor %}
         {% else %}
-        <div class="no-photo">
-            {{ artist.name|first|upper }}
-        </div>
-        {% endif %}
-        
-        <h1>{{ artist.name }}</h1>
-        <div class="listeners">
-            👥 {{ artist.listeners }} слушателей
-        </div>
-        
-        {% if artist.bio %}
-        <div class="bio">
-            <h3>Об артисте</h3>
-            <p>{{ artist.bio }}</p>
-        </div>
+            <p>У этого артиста пока нет песен.</p>
         {% endif %}
     </div>
+</div>
+
 </body>
 </html>

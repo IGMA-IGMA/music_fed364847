@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .navbar {
+            background: #333;
+            padding: 10px;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .navbar a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        .artist-item, .song-item {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        .artist-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="{% url 'home' %}">Главная</a>
+    <a href="{% url 'global_search' %}">Поиск</a>
+    <a href="{% url 'auth' %}">Войти</a>
+    {% if user.is_authenticated %}
+        <a href="/admin/">Админка</a>
+    {% endif %}
+</div>
+
+<div style="max-width: 800px; margin: auto;">
+    <a href="{% url 'home' %}" class="back-link">← Назад</a>
+
+    <form method="GET" action="{% url 'global_search' %}">
+        <input type="text" name="q" placeholder="Артист или песня" value="{{ search_query }}">
+        <button type="submit">Найти</button>
+    </form>
+
+    {% if search_query %}
+        <h2>Результаты: "{{ search_query }}"</h2>
+        <p>Найдено: {{ total_results }}</p>
+
+        {% if artists %}
+            <h3>Артисты ({{ artists_count }})</h3>
+            {% for artist in artists %}
+                <div class="artist-item" onclick="location.href='{% url 'artist_detail' artist.id %}'">
+                    {% if artist.photo %}
+                        <img src="{{ artist.photo.url }}">
+                    {% else %}
+                        <div style="width:100px;height:100px;background:#ccc;">Нет фото</div>
+                    {% endif %}
+                    <h4>{{ artist.name }}</h4>
+                    <p>Слушателей: {{ artist.listeners }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if songs %}
+            <h3>Песни ({{ songs_count }})</h3>
+            {% for song in songs %}
+                <div class="song-item" onclick="location.href='{% url 'artist_detail' song.artist.id %}'">
+                    <strong>{{ song.title }}</strong> — {{ song.artist.name }}
+                    <br>Прослушиваний: {{ song.plays }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if not artists and not songs %}
+            <p>Ничего не найдено.</p>
+        {% endif %}
+    {% else %}
+        <p>Введите запрос для поиска.</p>
+    {% endif %}
+</div>
+
+</body>
+</html>
