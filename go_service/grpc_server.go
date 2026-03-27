@@ -47,9 +47,16 @@ func (s *userServer) CreateUser(ctx context.Context, req *pb.CreateUserRequest) 
         zap.Int("id", user.ID),
         zap.String("username", user.Username))
 
-    return &pb.StatusCode{Code: 201}, nil  // ← исправил: 201 Created
+    return &pb.StatusCode{Code: 201}, nil  
 }
 
+func (s *userServer) Login(ctx context.Context, req *pb.UserInput) (*pb.LoginResponse, error){
+    loggerGRPC.Info("Login User", zap.String("user", req.GetUserName()))
+    if req.GetUserName() == "" || req.GetUserEmail() == "" {
+        loggerGRPC.Error("Validation failed: username/email is empty")
+        return &pb.LoginResponse{Status: 404, Token: "",}, nil
+    }
+}
 // NewGRPCServer создает и настраивает gRPC сервер
 func NewGRPCServer() *grpc.Server {
     grpcServer := grpc.NewServer()

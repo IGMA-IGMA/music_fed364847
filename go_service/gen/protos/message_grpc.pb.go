@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	ApiUsers_CreateUser_FullMethodName = "/serverGRPC.ApiUsers/CreateUser"
+	ApiUsers_Login_FullMethodName      = "/serverGRPC.ApiUsers/Login"
 )
 
 // ApiUsersClient is the client API for ApiUsers service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ApiUsersClient interface {
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*StatusCode, error)
+	Login(ctx context.Context, in *UserInput, opts ...grpc.CallOption) (*LoginResponse, error)
 }
 
 type apiUsersClient struct {
@@ -47,11 +49,22 @@ func (c *apiUsersClient) CreateUser(ctx context.Context, in *CreateUserRequest, 
 	return out, nil
 }
 
+func (c *apiUsersClient) Login(ctx context.Context, in *UserInput, opts ...grpc.CallOption) (*LoginResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LoginResponse)
+	err := c.cc.Invoke(ctx, ApiUsers_Login_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ApiUsersServer is the server API for ApiUsers service.
 // All implementations must embed UnimplementedApiUsersServer
 // for forward compatibility.
 type ApiUsersServer interface {
 	CreateUser(context.Context, *CreateUserRequest) (*StatusCode, error)
+	Login(context.Context, *UserInput) (*LoginResponse, error)
 	mustEmbedUnimplementedApiUsersServer()
 }
 
@@ -64,6 +77,9 @@ type UnimplementedApiUsersServer struct{}
 
 func (UnimplementedApiUsersServer) CreateUser(context.Context, *CreateUserRequest) (*StatusCode, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateUser not implemented")
+}
+func (UnimplementedApiUsersServer) Login(context.Context, *UserInput) (*LoginResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method Login not implemented")
 }
 func (UnimplementedApiUsersServer) mustEmbedUnimplementedApiUsersServer() {}
 func (UnimplementedApiUsersServer) testEmbeddedByValue()                  {}
@@ -104,6 +120,24 @@ func _ApiUsers_CreateUser_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ApiUsers_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiUsersServer).Login(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiUsers_Login_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiUsersServer).Login(ctx, req.(*UserInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ApiUsers_ServiceDesc is the grpc.ServiceDesc for ApiUsers service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +148,10 @@ var ApiUsers_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateUser",
 			Handler:    _ApiUsers_CreateUser_Handler,
+		},
+		{
+			MethodName: "Login",
+			Handler:    _ApiUsers_Login_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

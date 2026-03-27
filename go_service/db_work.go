@@ -78,9 +78,9 @@ func (db *PostgresDB) CreateUser(ctx context.Context, user *UserJS) error {
 	return nil
 }
 
-func (db *PostgresDB) InfoUser(ctx context.Context, email string) (*UserJS, error) {
+func (db *PostgresDB) ReadUserByEmail(ctx context.Context, email string) (*UserJS, error) {
 	var user UserJS
-	err := db.pool.QueryRow(ctx, QueryInfoUserName(), email).Scan(&user.ID,
+	err := db.pool.QueryRow(ctx, QueryInfoUserByEmail(), email).Scan(&user.ID,
 		&user.Username,
 		&user.Email,
 		&user.Pwd,
@@ -90,3 +90,5 @@ func (db *PostgresDB) InfoUser(ctx context.Context, email string) (*UserJS, erro
 	}
 	return &user, nil
 }
+
+

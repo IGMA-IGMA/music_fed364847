@@ -33,7 +33,7 @@ func QueryDeleteUser() string {
 	return `DELETE FROM users WHERE username = $1`
 }
 
-func QueryInfoUserEmail() string {
+func QueryInfoUserByEmail() string {
 	return `SELECT * FROM users WHERE email=$1`
 }
 
