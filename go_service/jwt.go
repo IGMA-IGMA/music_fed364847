@@ -49,10 +49,11 @@ func (m *JWTManager) GenerateToken(user *UserJS, role string) (string, error) {
 			NotBefore: jwt.NewNumericDate(now),
 		},
 	}
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString(m.secretKey)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("failed to sign token: %w", err)
 	}
 	return tokenString, nil
 }

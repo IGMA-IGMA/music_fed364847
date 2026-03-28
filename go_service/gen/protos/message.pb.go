@@ -24,8 +24,9 @@ const (
 type LoginResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Status        *StatusCode            `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
-	Token         string                 `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
-	User          *UserOutput            `protobuf:"bytes,3,opt,name=user,proto3" json:"user,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Token         string                 `protobuf:"bytes,3,opt,name=token,proto3" json:"token,omitempty"`
+	User          *UserOutput            `protobuf:"bytes,4,opt,name=user,proto3" json:"user,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -65,6 +66,13 @@ func (x *LoginResponse) GetStatus() *StatusCode {
 		return x.Status
 	}
 	return nil
+}
+
+func (x *LoginResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
 }
 
 func (x *LoginResponse) GetToken() string {
@@ -310,11 +318,12 @@ var File_protos_message_proto protoreflect.FileDescriptor
 const file_protos_message_proto_rawDesc = "" +
 	"\n" +
 	"\x14protos/message.proto\x12\n" +
-	"serverGRPC\"\x81\x01\n" +
+	"serverGRPC\"\x9b\x01\n" +
 	"\rLoginResponse\x12.\n" +
-	"\x06status\x18\x01 \x01(\v2\x16.serverGRPC.StatusCodeR\x06status\x12\x14\n" +
-	"\x05token\x18\x02 \x01(\tR\x05token\x12*\n" +
-	"\x04user\x18\x03 \x01(\v2\x16.serverGRPC.UserOutputR\x04user\"t\n" +
+	"\x06status\x18\x01 \x01(\v2\x16.serverGRPC.StatusCodeR\x06status\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x14\n" +
+	"\x05token\x18\x03 \x01(\tR\x05token\x12*\n" +
+	"\x04user\x18\x04 \x01(\v2\x16.serverGRPC.UserOutputR\x04user\"t\n" +
 	"\x11CreateUserRequest\x12\x1b\n" +
 	"\tuser_name\x18\x01 \x01(\tR\buserName\x12\x1d\n" +
 	"\n" +

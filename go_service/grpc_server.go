@@ -1,71 +1,130 @@
 package main
 
 import (
-    "context"
-    
-    pb "go_service/gen/protos"
-    "go.uber.org/zap"
-    "google.golang.org/grpc"
-    "google.golang.org/grpc/reflection"
+	"context"
+
+	pb "go_service/gen/protos"
+
+	"go.uber.org/zap"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
-// userServer реализует gRPC интерфейс
 type userServer struct {
-    pb.UnimplementedApiUsersServer
+	pb.UnimplementedApiUsersServer
+	jwtManager *JWTManager
+	db         *PostgresDB
 }
 
-// CreateUser — обработчик создания пользователя
 func (s *userServer) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.StatusCode, error) {
-    loggerGRPC.Info("CreateUser called",
-        zap.String("username", req.GetUserName()),
-        zap.String("email", req.GetUserEmail()),
-    )
+	loggerGRPC.Info("Processing user registration",
+		zap.String("username", req.GetUserName()),
+		zap.String("email", req.GetUserEmail()),
+	)
 
-    // Валидация
-    if req.GetUserName() == "" || req.GetUserEmail() == "" {
-        loggerGRPC.Error("Validation failed: username/email is empty")
-        return &pb.StatusCode{Code: 400}, nil
-    }
+	if req.GetUserName() == "" || req.GetUserEmail() == "" {
+		loggerGRPC.Error("Registration validation failed: missing required fields",
+			zap.String("username", req.GetUserName()),
+			zap.String("email", req.GetUserEmail()))
+		return &pb.StatusCode{Code: 400}, nil
+	}
 
-    // Подготовка данных
-    user := &UserJS{
-        Username: req.GetUserName(),
-        Email:    req.GetUserEmail(),
-        Pwd:      req.GetUserPassword(),
-    }
-    
-    // Сохранение в БД
-    err := db.CreateUser(context.Background(), user)
-    if err != nil {
-        loggerGRPC.Error("Failed to create user in database",
-            zap.String("error", err.Error()),
-            zap.String("user", req.GetUserName()))
-        return &pb.StatusCode{Code: 500}, err  // ← исправил: 500, а не 400
-    }
+	user := &UserJS{
+		Username: req.GetUserName(),
+		Email:    req.GetUserEmail(),
+		Pwd:      req.GetUserPassword(),
+	}
 
-    loggerGRPC.Info("User created successfully",
-        zap.Int("id", user.ID),
-        zap.String("username", user.Username))
+	err := s.db.CreateUser(context.Background(), user)
+	if err != nil {
+		loggerGRPC.Error("User registration failed",
+			zap.String("username", req.GetUserName()),
+			zap.String("email", req.GetUserEmail()),
+			zap.Error(err))
+		return &pb.StatusCode{Code: 500}, nil
+	}
 
-    return &pb.StatusCode{Code: 201}, nil  
+	loggerGRPC.Info("User registered successfully",
+		zap.Int("user_id", user.ID),
+		zap.String("username", user.Username),
+		zap.String("email", user.Email))
+
+	return &pb.StatusCode{Code: 201}, nil
 }
 
-func (s *userServer) Login(ctx context.Context, req *pb.UserInput) (*pb.LoginResponse, error){
-    loggerGRPC.Info("Login User", zap.String("user", req.GetUserName()))
-    if req.GetUserName() == "" || req.GetUserEmail() == "" {
-        loggerGRPC.Error("Validation failed: username/email is empty")
-        return &pb.LoginResponse{Status: 404, Token: "",}, nil
-    }
+func (s *userServer) Login(ctx context.Context, req *pb.UserInput) (*pb.LoginResponse, error) {
+	loggerGRPC.Info("Processing login attempt",
+		zap.String("username", req.GetUserName()),
+		zap.String("email", req.GetUserEmail()))
+
+	if req.GetUserName() == "" || req.GetUserEmail() == "" {
+		loggerGRPC.Error("Login validation failed: missing credentials",
+			zap.String("username", req.GetUserName()),
+			zap.String("email", req.GetUserEmail()))
+		return &pb.LoginResponse{
+			Status:  &pb.StatusCode{Code: 400},
+			Token:   "",
+			Message: "Username and email are required",
+		}, nil
+	}
+
+	userDB, err := s.db.ReadUserByEmail(context.Background(), req.GetUserEmail())
+	if err != nil {
+		loggerGRPC.Error("Login failed: user not found",
+			zap.String("email", req.GetUserEmail()),
+			zap.Error(err))
+		return &pb.LoginResponse{
+			Status:  &pb.StatusCode{Code: 401},
+			Token:   "",
+			Message: "Invalid credentials",
+		}, nil
+	}
+
+	if !CheckPassword(req.GetUserPassword(), userDB.Pwd) {
+		loggerGRPC.Error("Login failed: invalid password",
+			zap.Int("user_id", userDB.ID),
+			zap.String("username", userDB.Username))
+		return &pb.LoginResponse{
+			Status:  &pb.StatusCode{Code: 401},
+			Token:   "",
+			Message: "Invalid credentials",
+		}, nil
+	}
+
+	token, err := s.jwtManager.GenerateToken(userDB, "user")
+	if err != nil {
+		loggerGRPC.Error("Login failed: token generation error",
+			zap.Int("user_id", userDB.ID),
+			zap.String("username", userDB.Username),
+			zap.Error(err))
+		return &pb.LoginResponse{
+			Status:  &pb.StatusCode{Code: 500},
+			Token:   "",
+			Message: "Internal server error",
+		}, nil
+	}
+
+	loggerGRPC.Info("User logged in successfully",
+		zap.Int("user_id", userDB.ID),
+		zap.String("username", userDB.Username),
+		zap.String("email", userDB.Email))
+
+	return &pb.LoginResponse{
+		Status:  &pb.StatusCode{Code: 200},
+		Token:   token,
+		Message: "Login successful",
+	}, nil
 }
-// NewGRPCServer создает и настраивает gRPC сервер
-func NewGRPCServer() *grpc.Server {
-    grpcServer := grpc.NewServer()
-    
-    // Регистрируем наш сервис
-    pb.RegisterApiUsersServer(grpcServer, &userServer{})
-    
-    // Включаем рефлексию для отладки
-    reflection.Register(grpcServer)
-    
-    return grpcServer
+
+func NewGRPCServer(db *PostgresDB, jwtManager *JWTManager) *grpc.Server {
+	grpcServer := grpc.NewServer()
+
+	pb.RegisterApiUsersServer(grpcServer, &userServer{
+		db:         db,
+		jwtManager: jwtManager,
+	})
+
+	reflection.Register(grpcServer)
+
+	return grpcServer
 }
