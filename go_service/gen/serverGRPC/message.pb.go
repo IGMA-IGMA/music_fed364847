@@ -89,66 +89,6 @@ func (x *LoginResponse) GetUser() *UserOutput {
 	return nil
 }
 
-type CreateUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserName      string                 `protobuf:"bytes,1,opt,name=user_name,json=userName,proto3" json:"user_name,omitempty"`
-	UserEmail     string                 `protobuf:"bytes,2,opt,name=user_email,json=userEmail,proto3" json:"user_email,omitempty"`
-	UserPassword  string                 `protobuf:"bytes,3,opt,name=user_password,json=userPassword,proto3" json:"user_password,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateUserRequest) Reset() {
-	*x = CreateUserRequest{}
-	mi := &file_protos_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateUserRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateUserRequest) ProtoMessage() {}
-
-func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_message_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
-func (*CreateUserRequest) Descriptor() ([]byte, []int) {
-	return file_protos_message_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *CreateUserRequest) GetUserName() string {
-	if x != nil {
-		return x.UserName
-	}
-	return ""
-}
-
-func (x *CreateUserRequest) GetUserEmail() string {
-	if x != nil {
-		return x.UserEmail
-	}
-	return ""
-}
-
-func (x *CreateUserRequest) GetUserPassword() string {
-	if x != nil {
-		return x.UserPassword
-	}
-	return ""
-}
-
 type StatusCode struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Code          int32                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
@@ -158,7 +98,7 @@ type StatusCode struct {
 
 func (x *StatusCode) Reset() {
 	*x = StatusCode{}
-	mi := &file_protos_message_proto_msgTypes[2]
+	mi := &file_protos_message_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -170,7 +110,7 @@ func (x *StatusCode) String() string {
 func (*StatusCode) ProtoMessage() {}
 
 func (x *StatusCode) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_message_proto_msgTypes[2]
+	mi := &file_protos_message_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -183,7 +123,7 @@ func (x *StatusCode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StatusCode.ProtoReflect.Descriptor instead.
 func (*StatusCode) Descriptor() ([]byte, []int) {
-	return file_protos_message_proto_rawDescGZIP(), []int{2}
+	return file_protos_message_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *StatusCode) GetCode() int32 {
@@ -204,7 +144,7 @@ type UserOutput struct {
 
 func (x *UserOutput) Reset() {
 	*x = UserOutput{}
-	mi := &file_protos_message_proto_msgTypes[3]
+	mi := &file_protos_message_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -216,7 +156,7 @@ func (x *UserOutput) String() string {
 func (*UserOutput) ProtoMessage() {}
 
 func (x *UserOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_message_proto_msgTypes[3]
+	mi := &file_protos_message_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -229,7 +169,7 @@ func (x *UserOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserOutput.ProtoReflect.Descriptor instead.
 func (*UserOutput) Descriptor() ([]byte, []int) {
-	return file_protos_message_proto_rawDescGZIP(), []int{3}
+	return file_protos_message_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *UserOutput) GetId() int32 {
@@ -264,7 +204,7 @@ type UserInput struct {
 
 func (x *UserInput) Reset() {
 	*x = UserInput{}
-	mi := &file_protos_message_proto_msgTypes[4]
+	mi := &file_protos_message_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -276,7 +216,7 @@ func (x *UserInput) String() string {
 func (*UserInput) ProtoMessage() {}
 
 func (x *UserInput) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_message_proto_msgTypes[4]
+	mi := &file_protos_message_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -289,7 +229,7 @@ func (x *UserInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserInput.ProtoReflect.Descriptor instead.
 func (*UserInput) Descriptor() ([]byte, []int) {
-	return file_protos_message_proto_rawDescGZIP(), []int{4}
+	return file_protos_message_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *UserInput) GetUserName() string {
@@ -313,6 +253,42 @@ func (x *UserInput) GetUserPassword() string {
 	return ""
 }
 
+type GetUserRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserRequest) Reset() {
+	*x = GetUserRequest{}
+	mi := &file_protos_message_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserRequest) ProtoMessage() {}
+
+func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_message_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserRequest.ProtoReflect.Descriptor instead.
+func (*GetUserRequest) Descriptor() ([]byte, []int) {
+	return file_protos_message_proto_rawDescGZIP(), []int{4}
+}
+
 var File_protos_message_proto protoreflect.FileDescriptor
 
 const file_protos_message_proto_rawDesc = "" +
@@ -323,12 +299,7 @@ const file_protos_message_proto_rawDesc = "" +
 	"\x06status\x18\x01 \x01(\v2\x16.serverGRPC.StatusCodeR\x06status\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x14\n" +
 	"\x05token\x18\x03 \x01(\tR\x05token\x12*\n" +
-	"\x04user\x18\x04 \x01(\v2\x16.serverGRPC.UserOutputR\x04user\"t\n" +
-	"\x11CreateUserRequest\x12\x1b\n" +
-	"\tuser_name\x18\x01 \x01(\tR\buserName\x12\x1d\n" +
-	"\n" +
-	"user_email\x18\x02 \x01(\tR\tuserEmail\x12#\n" +
-	"\ruser_password\x18\x03 \x01(\tR\fuserPassword\" \n" +
+	"\x04user\x18\x04 \x01(\v2\x16.serverGRPC.UserOutputR\x04user\" \n" +
 	"\n" +
 	"StatusCode\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x05R\x04code\"X\n" +
@@ -342,11 +313,15 @@ const file_protos_message_proto_rawDesc = "" +
 	"\tuser_name\x18\x01 \x01(\tR\buserName\x12\x1d\n" +
 	"\n" +
 	"user_email\x18\x02 \x01(\tR\tuserEmail\x12#\n" +
-	"\ruser_password\x18\x03 \x01(\tR\fuserPassword2\x8a\x01\n" +
-	"\bApiUsers\x12C\n" +
+	"\ruser_password\x18\x03 \x01(\tR\fuserPassword\"\x10\n" +
+	"\x0eGetUserRequest2\xfe\x01\n" +
+	"\bApiUsers\x12;\n" +
 	"\n" +
-	"CreateUser\x12\x1d.serverGRPC.CreateUserRequest\x1a\x16.serverGRPC.StatusCode\x129\n" +
-	"\x05Login\x12\x15.serverGRPC.UserInput\x1a\x19.serverGRPC.LoginResponseB\x10Z\x0egen/serverGRPCb\x06proto3"
+	"CreateUser\x12\x15.serverGRPC.UserInput\x1a\x16.serverGRPC.StatusCode\x129\n" +
+	"\x05Login\x12\x15.serverGRPC.UserInput\x1a\x19.serverGRPC.LoginResponse\x12=\n" +
+	"\aGetUser\x12\x1a.serverGRPC.GetUserRequest\x1a\x16.serverGRPC.UserOutput\x12;\n" +
+	"\n" +
+	"DeleteUser\x12\x15.serverGRPC.UserInput\x1a\x16.serverGRPC.StatusCodeB\x10Z\x0egen/serverGRPCb\x06proto3"
 
 var (
 	file_protos_message_proto_rawDescOnce sync.Once
@@ -362,21 +337,25 @@ func file_protos_message_proto_rawDescGZIP() []byte {
 
 var file_protos_message_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_protos_message_proto_goTypes = []any{
-	(*LoginResponse)(nil),     // 0: serverGRPC.LoginResponse
-	(*CreateUserRequest)(nil), // 1: serverGRPC.CreateUserRequest
-	(*StatusCode)(nil),        // 2: serverGRPC.StatusCode
-	(*UserOutput)(nil),        // 3: serverGRPC.UserOutput
-	(*UserInput)(nil),         // 4: serverGRPC.UserInput
+	(*LoginResponse)(nil),  // 0: serverGRPC.LoginResponse
+	(*StatusCode)(nil),     // 1: serverGRPC.StatusCode
+	(*UserOutput)(nil),     // 2: serverGRPC.UserOutput
+	(*UserInput)(nil),      // 3: serverGRPC.UserInput
+	(*GetUserRequest)(nil), // 4: serverGRPC.GetUserRequest
 }
 var file_protos_message_proto_depIdxs = []int32{
-	2, // 0: serverGRPC.LoginResponse.status:type_name -> serverGRPC.StatusCode
-	3, // 1: serverGRPC.LoginResponse.user:type_name -> serverGRPC.UserOutput
-	1, // 2: serverGRPC.ApiUsers.CreateUser:input_type -> serverGRPC.CreateUserRequest
-	4, // 3: serverGRPC.ApiUsers.Login:input_type -> serverGRPC.UserInput
-	2, // 4: serverGRPC.ApiUsers.CreateUser:output_type -> serverGRPC.StatusCode
-	0, // 5: serverGRPC.ApiUsers.Login:output_type -> serverGRPC.LoginResponse
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
+	1, // 0: serverGRPC.LoginResponse.status:type_name -> serverGRPC.StatusCode
+	2, // 1: serverGRPC.LoginResponse.user:type_name -> serverGRPC.UserOutput
+	3, // 2: serverGRPC.ApiUsers.CreateUser:input_type -> serverGRPC.UserInput
+	3, // 3: serverGRPC.ApiUsers.Login:input_type -> serverGRPC.UserInput
+	4, // 4: serverGRPC.ApiUsers.GetUser:input_type -> serverGRPC.GetUserRequest
+	3, // 5: serverGRPC.ApiUsers.DeleteUser:input_type -> serverGRPC.UserInput
+	1, // 6: serverGRPC.ApiUsers.CreateUser:output_type -> serverGRPC.StatusCode
+	0, // 7: serverGRPC.ApiUsers.Login:output_type -> serverGRPC.LoginResponse
+	2, // 8: serverGRPC.ApiUsers.GetUser:output_type -> serverGRPC.UserOutput
+	1, // 9: serverGRPC.ApiUsers.DeleteUser:output_type -> serverGRPC.StatusCode
+	6, // [6:10] is the sub-list for method output_type
+	2, // [2:6] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
 	2, // [2:2] is the sub-list for extension extendee
 	0, // [0:2] is the sub-list for field type_name

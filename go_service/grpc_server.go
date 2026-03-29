@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 
-	pb "go_service/gen/protos"
+	pb "go_service/gen/serverGRPC"
 
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
@@ -16,7 +16,7 @@ type userServer struct {
 	db         *PostgresDB
 }
 
-func (s *userServer) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.StatusCode, error) {
+func (s *userServer) CreateUser(ctx context.Context, req *pb.UserInput) (*pb.StatusCode, error) {
 	loggerGRPC.Info("Processing user registration",
 		zap.String("username", req.GetUserName()),
 		zap.String("email", req.GetUserEmail()),
