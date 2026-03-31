@@ -1,13 +1,4 @@
 from django.shortcuts import render, get_object_or_404
-<<<<<<< HEAD
-from .models import Artist_page
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-
-def artist_detail(request, artist_id):
-    artist = get_object_or_404(Artist_page, id=artist_id)
-    return render(request, 'artist_page.html', {'artist': artist})
-=======
 from .models import Artist_page, Artist_song
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -27,7 +18,6 @@ def artist_detail(request, artist_id):
         'total_plays_in_months': int(total_plays_in_months),
     }
     return render(request, 'artist_page.html', context)
->>>>>>> 8db0ba0dbecf88af941a3ee9bff345731e3e4735
 
 @csrf_exempt
 def submit_data(request):
@@ -39,9 +29,6 @@ def submit_data(request):
             'status': 'success',
             'message': 'Данные получены и обработаны'
         })
-<<<<<<< HEAD
-    return render(request, 'auth_form.html')
-=======
     return render(request, 'auth_form.html')
 
 def artists_all(request):
@@ -73,4 +60,3 @@ def global_search(request):
         'total_results': len(artists_result) + len(songs_result),
     }
     return render(request, 'search_results.html', context)
->>>>>>> 8db0ba0dbecf88af941a3ee9bff345731e3e4735

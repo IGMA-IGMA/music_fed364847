@@ -1,29 +1,28 @@
 package main
 
-<<<<<<< HEAD
 func QueryCreateTable() string {
 	return `
-    	CREATE TABLE IF NOT EXISTS users (
-    	id SERIAL PRIMARY KEY,
-    	username VARCHAR(50) NOT NULL,
-    	email TEXT NOT NULL UNIQUE,
-    	pwd TEXT NOT NULL,
-    	create_at TIMESTAMP DEFAULT NOW()
-	);
+    CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(50) NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        pwd TEXT NOT NULL,
+        create_at TIMESTAMP DEFAULT NOW()
+    );
+    
+    CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
+    CREATE INDEX IF NOT EXISTS idx_users_created_at ON users(create_at);
+    CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 
-	CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
-	CREATE INDEX IF NOT EXISTS idx_users_created_at ON users(create_at);
-	CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+    CREATE TABLE IF NOT EXISTS users_like (
+        id SERIAL PRIMARY KEY,
+        id_user INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        id_artist INTEGER,
+        create_at TIMESTAMP DEFAULT NOW()
+    );
 
-	CREATE TABLE IF NOT EXISTS users_like (
-    	id SERIAL PRIMARY KEY,
-    	id_user INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    	id_artist INTEGER,
-    	create_at TIMESTAMP DEFAULT NOW()
-	);
-
-	CREATE INDEX IF NOT EXISTS idx_users_like_id_user ON users_like(id_user);
-	CREATE INDEX IF NOT EXISTS idx_users_like_id_artist ON users_like(id_artist);
+    CREATE INDEX IF NOT EXISTS idx_users_like_id_user ON users_like(id_user);
+    CREATE INDEX IF NOT EXISTS idx_users_like_id_artist ON users_like(id_artist);
     `
 }
 
@@ -49,40 +48,13 @@ func QueryInfoUserByName() string {
 }
 
 func QueryDropTable() string {
-	return `DROP TABLE if EXISTS users`
+	return `DROP TABLE IF EXISTS users`
 }
 
 func QueryAddLike() string {
-	return `INSER INTO user_like(id_user, id_artist, create_at) VALUES ($1, $2, NOW())`
+	return `INSERT INTO users_like(id_user, id_artist, create_at) VALUES ($1, $2, NOW())`
 }
 
 func QueryDelLike() string {
-	return `DELETE FROM users_like WHERE id_user=$1, id_artist=$2)`
-=======
-<<<<<<< Updated upstream
-func CreateTable() string {
-	return `CREATE TABLE User (
-		id SERIAL PRIMARY KEY
-		username VARCHAR(50) NOT NULL 
-		email text NOT NULL UNIQUE
-		pwd text NOT NULL
-		create_at DEFAULT NOW()
-	)`
-=======
-func QueryCreateTable() string {
-    return `
-    CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        username VARCHAR(50) NOT NULL,
-        email TEXT NOT NULL UNIQUE,
-        pwd TEXT NOT NULL,
-        create_at TIMESTAMP DEFAULT NOW()
-    );
-    
-    CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
-    CREATE INDEX IF NOT EXISTS idx_users_created_at ON users(create_at);
-	CREATE INDEX IF NOT EXISTS idx_users_email on users(email);
-    `
->>>>>>> Stashed changes
->>>>>>> 8db0ba0dbecf88af941a3ee9bff345731e3e4735
+	return `DELETE FROM users_like WHERE id_user=$1 AND id_artist=$2`
 }
