@@ -12,13 +12,6 @@ type PostgresDB struct {
 	pool *pgxpool.Pool
 }
 
-<<<<<<< Updated upstream
-type Storage interface {
-	CreateUser(ctx context.Context, user *UserJS)
-	DeleateUser(ctx context.Context, user *UserJS)
-	UpdateUser(ctx context.Context, user *UserJS)
-	InfoUser(ctx context.Context, user *UserJS)
-=======
 type StorageDB interface {
 	CreateUser(ctx context.Context, user *UserJS) error                 // C
 	ReadUserByEmail(ctx context.Context, user *UserJS) (*UserJS, error) // R
@@ -26,7 +19,6 @@ type StorageDB interface {
 	DeleateUser(ctx context.Context, user *UserJS) error                // D
 	UpdateUser(ctx context.Context, user *UserJS) error                 // U
 
->>>>>>> Stashed changes
 	Close()
 }
 
@@ -56,8 +48,6 @@ func NewConnect(cfg *DBConfig) (*PostgresDB, error) {
 func (db *PostgresDB) Close() {
 	db.pool.Close()
 }
-<<<<<<< Updated upstream
-=======
 
 func (db *PostgresDB) CreateUser(ctx context.Context, user *UserJS) error {
 	user.Pwd, _ = HashPassword(user.Pwd)
@@ -100,4 +90,3 @@ func (db *PostgresDB) InfoUser(ctx context.Context, email string) (*UserJS, erro
 	}
 	return &user, nil
 }
->>>>>>> Stashed changes
