@@ -4,4 +4,6 @@ from . import views
 urlpatterns = [
     path('artist/<int:artist_id>/', views.artist_detail, name='artist_detail'),
     path('auth/', views.submit_data, name='auth'),
+    path('', views.artists_all, name ='home'),
+    path('search/', views.global_search, name='global_search'),
 ]

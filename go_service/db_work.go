@@ -12,13 +12,21 @@ type PostgresDB struct {
 	pool *pgxpool.Pool
 }
 
+<<<<<<< Updated upstream
+type Storage interface {
+	CreateUser(ctx context.Context, user *UserJS)
+	DeleateUser(ctx context.Context, user *UserJS)
+	UpdateUser(ctx context.Context, user *UserJS)
+	InfoUser(ctx context.Context, user *UserJS)
+=======
 type StorageDB interface {
 	CreateUser(ctx context.Context, user *UserJS) error                 // C
-	ReadUserByEmail(ctx context.Context, email string) (*UserJS, error) // R
-	ReadUserById(ctx context.Context, id string) (*UserJS, error)    // R
+	ReadUserByEmail(ctx context.Context, user *UserJS) (*UserJS, error) // R
+	ReadUserById(ctx context.Context, user *UserJS) (*UserJS, error)    // R
 	DeleateUser(ctx context.Context, user *UserJS) error                // D
 	UpdateUser(ctx context.Context, user *UserJS) error                 // U
 
+>>>>>>> Stashed changes
 	Close()
 }
 
@@ -48,6 +56,8 @@ func NewConnect(cfg *DBConfig) (*PostgresDB, error) {
 func (db *PostgresDB) Close() {
 	db.pool.Close()
 }
+<<<<<<< Updated upstream
+=======
 
 func (db *PostgresDB) CreateUser(ctx context.Context, user *UserJS) error {
 	user.Pwd, _ = HashPassword(user.Pwd)
@@ -78,9 +88,9 @@ func (db *PostgresDB) CreateUser(ctx context.Context, user *UserJS) error {
 	return nil
 }
 
-func (db *PostgresDB) ReadUserByEmail(ctx context.Context, email string) (*UserJS, error) {
+func (db *PostgresDB) InfoUser(ctx context.Context, email string) (*UserJS, error) {
 	var user UserJS
-	err := db.pool.QueryRow(ctx, QueryInfoUserByEmail(), email).Scan(&user.ID,
+	err := db.pool.QueryRow(ctx, QueryInfoUser(), email).Scan(&user.ID,
 		&user.Username,
 		&user.Email,
 		&user.Pwd,
@@ -90,17 +100,4 @@ func (db *PostgresDB) ReadUserByEmail(ctx context.Context, email string) (*UserJ
 	}
 	return &user, nil
 }
-
-
-func (db *PostgresDB) ReadUserById(ctx context.Context, id int32) (*UserJS, error) {
-	var user UserJS
-	err := db.pool.QueryRow(ctx, QueryInfoUserByEmail(), id).Scan(&user.ID,
-		&user.Username,
-		&user.Email,
-		&user.Pwd,
-		&user.CreatedAt)
-	if err != nil {
-		return nil, err
-	}
-	return &user, nil
-}
+>>>>>>> Stashed changes
