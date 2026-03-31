@@ -7,9 +7,13 @@ option go_package = "gen/serverGRPC";
 service ApiUsers {
     rpc CreateUser (UserInput) returns (StatusCode);
     rpc Login(UserInput) returns (LoginResponse);
-    rpc GetUser(GetUserRequest) returns (UserOutput);
-    rpc DeleteUser(UserInput) returns (StatusCode);
+    rpc GetUser(Empty) returns (UserOutput);
+    rpc DeleteUser(Empty) returns (StatusCode);
+    rpc AddLike(LikeRequest) returns (StatusCode);
+    rpc RemoveLike(LikeRequest) returns (StatusCode);
 }
+
+message Empty {}
 
 message LoginResponse{
     StatusCode status = 1;
@@ -34,6 +38,6 @@ message UserInput {
     string user_password = 3;
 }
 
-message GetUserRequest{
-
+message LikeRequest {
+    int32 artist_id = 1;
 }

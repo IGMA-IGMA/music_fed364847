@@ -21,6 +21,42 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Empty struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Empty) Reset() {
+	*x = Empty{}
+	mi := &file_protos_message_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Empty) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Empty) ProtoMessage() {}
+
+func (x *Empty) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_message_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Empty.ProtoReflect.Descriptor instead.
+func (*Empty) Descriptor() ([]byte, []int) {
+	return file_protos_message_proto_rawDescGZIP(), []int{0}
+}
+
 type LoginResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Status        *StatusCode            `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
@@ -33,7 +69,7 @@ type LoginResponse struct {
 
 func (x *LoginResponse) Reset() {
 	*x = LoginResponse{}
-	mi := &file_protos_message_proto_msgTypes[0]
+	mi := &file_protos_message_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +81,7 @@ func (x *LoginResponse) String() string {
 func (*LoginResponse) ProtoMessage() {}
 
 func (x *LoginResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_message_proto_msgTypes[0]
+	mi := &file_protos_message_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +94,7 @@ func (x *LoginResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginResponse.ProtoReflect.Descriptor instead.
 func (*LoginResponse) Descriptor() ([]byte, []int) {
-	return file_protos_message_proto_rawDescGZIP(), []int{0}
+	return file_protos_message_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *LoginResponse) GetStatus() *StatusCode {
@@ -98,7 +134,7 @@ type StatusCode struct {
 
 func (x *StatusCode) Reset() {
 	*x = StatusCode{}
-	mi := &file_protos_message_proto_msgTypes[1]
+	mi := &file_protos_message_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -110,7 +146,7 @@ func (x *StatusCode) String() string {
 func (*StatusCode) ProtoMessage() {}
 
 func (x *StatusCode) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_message_proto_msgTypes[1]
+	mi := &file_protos_message_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -123,7 +159,7 @@ func (x *StatusCode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StatusCode.ProtoReflect.Descriptor instead.
 func (*StatusCode) Descriptor() ([]byte, []int) {
-	return file_protos_message_proto_rawDescGZIP(), []int{1}
+	return file_protos_message_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *StatusCode) GetCode() int32 {
@@ -144,7 +180,7 @@ type UserOutput struct {
 
 func (x *UserOutput) Reset() {
 	*x = UserOutput{}
-	mi := &file_protos_message_proto_msgTypes[2]
+	mi := &file_protos_message_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -156,7 +192,7 @@ func (x *UserOutput) String() string {
 func (*UserOutput) ProtoMessage() {}
 
 func (x *UserOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_message_proto_msgTypes[2]
+	mi := &file_protos_message_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -169,7 +205,7 @@ func (x *UserOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserOutput.ProtoReflect.Descriptor instead.
 func (*UserOutput) Descriptor() ([]byte, []int) {
-	return file_protos_message_proto_rawDescGZIP(), []int{2}
+	return file_protos_message_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *UserOutput) GetId() int32 {
@@ -204,7 +240,7 @@ type UserInput struct {
 
 func (x *UserInput) Reset() {
 	*x = UserInput{}
-	mi := &file_protos_message_proto_msgTypes[3]
+	mi := &file_protos_message_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -216,7 +252,7 @@ func (x *UserInput) String() string {
 func (*UserInput) ProtoMessage() {}
 
 func (x *UserInput) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_message_proto_msgTypes[3]
+	mi := &file_protos_message_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -229,7 +265,7 @@ func (x *UserInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserInput.ProtoReflect.Descriptor instead.
 func (*UserInput) Descriptor() ([]byte, []int) {
-	return file_protos_message_proto_rawDescGZIP(), []int{3}
+	return file_protos_message_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *UserInput) GetUserName() string {
@@ -253,27 +289,28 @@ func (x *UserInput) GetUserPassword() string {
 	return ""
 }
 
-type GetUserRequest struct {
+type LikeRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ArtistId      int32                  `protobuf:"varint,1,opt,name=artist_id,json=artistId,proto3" json:"artist_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetUserRequest) Reset() {
-	*x = GetUserRequest{}
-	mi := &file_protos_message_proto_msgTypes[4]
+func (x *LikeRequest) Reset() {
+	*x = LikeRequest{}
+	mi := &file_protos_message_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetUserRequest) String() string {
+func (x *LikeRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetUserRequest) ProtoMessage() {}
+func (*LikeRequest) ProtoMessage() {}
 
-func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_message_proto_msgTypes[4]
+func (x *LikeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_message_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -284,9 +321,16 @@ func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetUserRequest.ProtoReflect.Descriptor instead.
-func (*GetUserRequest) Descriptor() ([]byte, []int) {
-	return file_protos_message_proto_rawDescGZIP(), []int{4}
+// Deprecated: Use LikeRequest.ProtoReflect.Descriptor instead.
+func (*LikeRequest) Descriptor() ([]byte, []int) {
+	return file_protos_message_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *LikeRequest) GetArtistId() int32 {
+	if x != nil {
+		return x.ArtistId
+	}
+	return 0
 }
 
 var File_protos_message_proto protoreflect.FileDescriptor
@@ -294,7 +338,8 @@ var File_protos_message_proto protoreflect.FileDescriptor
 const file_protos_message_proto_rawDesc = "" +
 	"\n" +
 	"\x14protos/message.proto\x12\n" +
-	"serverGRPC\"\x9b\x01\n" +
+	"serverGRPC\"\a\n" +
+	"\x05Empty\"\x9b\x01\n" +
 	"\rLoginResponse\x12.\n" +
 	"\x06status\x18\x01 \x01(\v2\x16.serverGRPC.StatusCodeR\x06status\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x14\n" +
@@ -313,15 +358,19 @@ const file_protos_message_proto_rawDesc = "" +
 	"\tuser_name\x18\x01 \x01(\tR\buserName\x12\x1d\n" +
 	"\n" +
 	"user_email\x18\x02 \x01(\tR\tuserEmail\x12#\n" +
-	"\ruser_password\x18\x03 \x01(\tR\fuserPassword\"\x10\n" +
-	"\x0eGetUserRequest2\xfe\x01\n" +
+	"\ruser_password\x18\x03 \x01(\tR\fuserPassword\"*\n" +
+	"\vLikeRequest\x12\x1b\n" +
+	"\tartist_id\x18\x01 \x01(\x05R\bartistId2\xec\x02\n" +
 	"\bApiUsers\x12;\n" +
 	"\n" +
 	"CreateUser\x12\x15.serverGRPC.UserInput\x1a\x16.serverGRPC.StatusCode\x129\n" +
-	"\x05Login\x12\x15.serverGRPC.UserInput\x1a\x19.serverGRPC.LoginResponse\x12=\n" +
-	"\aGetUser\x12\x1a.serverGRPC.GetUserRequest\x1a\x16.serverGRPC.UserOutput\x12;\n" +
+	"\x05Login\x12\x15.serverGRPC.UserInput\x1a\x19.serverGRPC.LoginResponse\x124\n" +
+	"\aGetUser\x12\x11.serverGRPC.Empty\x1a\x16.serverGRPC.UserOutput\x127\n" +
 	"\n" +
-	"DeleteUser\x12\x15.serverGRPC.UserInput\x1a\x16.serverGRPC.StatusCodeB\x10Z\x0egen/serverGRPCb\x06proto3"
+	"DeleteUser\x12\x11.serverGRPC.Empty\x1a\x16.serverGRPC.StatusCode\x12:\n" +
+	"\aAddLike\x12\x17.serverGRPC.LikeRequest\x1a\x16.serverGRPC.StatusCode\x12=\n" +
+	"\n" +
+	"RemoveLike\x12\x17.serverGRPC.LikeRequest\x1a\x16.serverGRPC.StatusCodeB\x10Z\x0egen/serverGRPCb\x06proto3"
 
 var (
 	file_protos_message_proto_rawDescOnce sync.Once
@@ -335,27 +384,32 @@ func file_protos_message_proto_rawDescGZIP() []byte {
 	return file_protos_message_proto_rawDescData
 }
 
-var file_protos_message_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_protos_message_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_protos_message_proto_goTypes = []any{
-	(*LoginResponse)(nil),  // 0: serverGRPC.LoginResponse
-	(*StatusCode)(nil),     // 1: serverGRPC.StatusCode
-	(*UserOutput)(nil),     // 2: serverGRPC.UserOutput
-	(*UserInput)(nil),      // 3: serverGRPC.UserInput
-	(*GetUserRequest)(nil), // 4: serverGRPC.GetUserRequest
+	(*Empty)(nil),         // 0: serverGRPC.Empty
+	(*LoginResponse)(nil), // 1: serverGRPC.LoginResponse
+	(*StatusCode)(nil),    // 2: serverGRPC.StatusCode
+	(*UserOutput)(nil),    // 3: serverGRPC.UserOutput
+	(*UserInput)(nil),     // 4: serverGRPC.UserInput
+	(*LikeRequest)(nil),   // 5: serverGRPC.LikeRequest
 }
 var file_protos_message_proto_depIdxs = []int32{
-	1, // 0: serverGRPC.LoginResponse.status:type_name -> serverGRPC.StatusCode
-	2, // 1: serverGRPC.LoginResponse.user:type_name -> serverGRPC.UserOutput
-	3, // 2: serverGRPC.ApiUsers.CreateUser:input_type -> serverGRPC.UserInput
-	3, // 3: serverGRPC.ApiUsers.Login:input_type -> serverGRPC.UserInput
-	4, // 4: serverGRPC.ApiUsers.GetUser:input_type -> serverGRPC.GetUserRequest
-	3, // 5: serverGRPC.ApiUsers.DeleteUser:input_type -> serverGRPC.UserInput
-	1, // 6: serverGRPC.ApiUsers.CreateUser:output_type -> serverGRPC.StatusCode
-	0, // 7: serverGRPC.ApiUsers.Login:output_type -> serverGRPC.LoginResponse
-	2, // 8: serverGRPC.ApiUsers.GetUser:output_type -> serverGRPC.UserOutput
-	1, // 9: serverGRPC.ApiUsers.DeleteUser:output_type -> serverGRPC.StatusCode
-	6, // [6:10] is the sub-list for method output_type
-	2, // [2:6] is the sub-list for method input_type
+	2, // 0: serverGRPC.LoginResponse.status:type_name -> serverGRPC.StatusCode
+	3, // 1: serverGRPC.LoginResponse.user:type_name -> serverGRPC.UserOutput
+	4, // 2: serverGRPC.ApiUsers.CreateUser:input_type -> serverGRPC.UserInput
+	4, // 3: serverGRPC.ApiUsers.Login:input_type -> serverGRPC.UserInput
+	0, // 4: serverGRPC.ApiUsers.GetUser:input_type -> serverGRPC.Empty
+	0, // 5: serverGRPC.ApiUsers.DeleteUser:input_type -> serverGRPC.Empty
+	5, // 6: serverGRPC.ApiUsers.AddLike:input_type -> serverGRPC.LikeRequest
+	5, // 7: serverGRPC.ApiUsers.RemoveLike:input_type -> serverGRPC.LikeRequest
+	2, // 8: serverGRPC.ApiUsers.CreateUser:output_type -> serverGRPC.StatusCode
+	1, // 9: serverGRPC.ApiUsers.Login:output_type -> serverGRPC.LoginResponse
+	3, // 10: serverGRPC.ApiUsers.GetUser:output_type -> serverGRPC.UserOutput
+	2, // 11: serverGRPC.ApiUsers.DeleteUser:output_type -> serverGRPC.StatusCode
+	2, // 12: serverGRPC.ApiUsers.AddLike:output_type -> serverGRPC.StatusCode
+	2, // 13: serverGRPC.ApiUsers.RemoveLike:output_type -> serverGRPC.StatusCode
+	8, // [8:14] is the sub-list for method output_type
+	2, // [2:8] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
 	2, // [2:2] is the sub-list for extension extendee
 	0, // [0:2] is the sub-list for field type_name
@@ -372,7 +426,7 @@ func file_protos_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_protos_message_proto_rawDesc), len(file_protos_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

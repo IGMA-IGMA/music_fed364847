@@ -23,6 +23,8 @@ const (
 	ApiUsers_Login_FullMethodName      = "/serverGRPC.ApiUsers/Login"
 	ApiUsers_GetUser_FullMethodName    = "/serverGRPC.ApiUsers/GetUser"
 	ApiUsers_DeleteUser_FullMethodName = "/serverGRPC.ApiUsers/DeleteUser"
+	ApiUsers_AddLike_FullMethodName    = "/serverGRPC.ApiUsers/AddLike"
+	ApiUsers_RemoveLike_FullMethodName = "/serverGRPC.ApiUsers/RemoveLike"
 )
 
 // ApiUsersClient is the client API for ApiUsers service.
@@ -31,8 +33,10 @@ const (
 type ApiUsersClient interface {
 	CreateUser(ctx context.Context, in *UserInput, opts ...grpc.CallOption) (*StatusCode, error)
 	Login(ctx context.Context, in *UserInput, opts ...grpc.CallOption) (*LoginResponse, error)
-	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*UserOutput, error)
-	DeleteUser(ctx context.Context, in *UserInput, opts ...grpc.CallOption) (*StatusCode, error)
+	GetUser(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*UserOutput, error)
+	DeleteUser(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*StatusCode, error)
+	AddLike(ctx context.Context, in *LikeRequest, opts ...grpc.CallOption) (*StatusCode, error)
+	RemoveLike(ctx context.Context, in *LikeRequest, opts ...grpc.CallOption) (*StatusCode, error)
 }
 
 type apiUsersClient struct {
@@ -63,7 +67,7 @@ func (c *apiUsersClient) Login(ctx context.Context, in *UserInput, opts ...grpc.
 	return out, nil
 }
 
-func (c *apiUsersClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*UserOutput, error) {
+func (c *apiUsersClient) GetUser(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*UserOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UserOutput)
 	err := c.cc.Invoke(ctx, ApiUsers_GetUser_FullMethodName, in, out, cOpts...)
@@ -73,10 +77,30 @@ func (c *apiUsersClient) GetUser(ctx context.Context, in *GetUserRequest, opts .
 	return out, nil
 }
 
-func (c *apiUsersClient) DeleteUser(ctx context.Context, in *UserInput, opts ...grpc.CallOption) (*StatusCode, error) {
+func (c *apiUsersClient) DeleteUser(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*StatusCode, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(StatusCode)
 	err := c.cc.Invoke(ctx, ApiUsers_DeleteUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiUsersClient) AddLike(ctx context.Context, in *LikeRequest, opts ...grpc.CallOption) (*StatusCode, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StatusCode)
+	err := c.cc.Invoke(ctx, ApiUsers_AddLike_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiUsersClient) RemoveLike(ctx context.Context, in *LikeRequest, opts ...grpc.CallOption) (*StatusCode, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StatusCode)
+	err := c.cc.Invoke(ctx, ApiUsers_RemoveLike_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -89,8 +113,10 @@ func (c *apiUsersClient) DeleteUser(ctx context.Context, in *UserInput, opts ...
 type ApiUsersServer interface {
 	CreateUser(context.Context, *UserInput) (*StatusCode, error)
 	Login(context.Context, *UserInput) (*LoginResponse, error)
-	GetUser(context.Context, *GetUserRequest) (*UserOutput, error)
-	DeleteUser(context.Context, *UserInput) (*StatusCode, error)
+	GetUser(context.Context, *Empty) (*UserOutput, error)
+	DeleteUser(context.Context, *Empty) (*StatusCode, error)
+	AddLike(context.Context, *LikeRequest) (*StatusCode, error)
+	RemoveLike(context.Context, *LikeRequest) (*StatusCode, error)
 	mustEmbedUnimplementedApiUsersServer()
 }
 
@@ -107,11 +133,17 @@ func (UnimplementedApiUsersServer) CreateUser(context.Context, *UserInput) (*Sta
 func (UnimplementedApiUsersServer) Login(context.Context, *UserInput) (*LoginResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Login not implemented")
 }
-func (UnimplementedApiUsersServer) GetUser(context.Context, *GetUserRequest) (*UserOutput, error) {
+func (UnimplementedApiUsersServer) GetUser(context.Context, *Empty) (*UserOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUser not implemented")
 }
-func (UnimplementedApiUsersServer) DeleteUser(context.Context, *UserInput) (*StatusCode, error) {
+func (UnimplementedApiUsersServer) DeleteUser(context.Context, *Empty) (*StatusCode, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteUser not implemented")
+}
+func (UnimplementedApiUsersServer) AddLike(context.Context, *LikeRequest) (*StatusCode, error) {
+	return nil, status.Error(codes.Unimplemented, "method AddLike not implemented")
+}
+func (UnimplementedApiUsersServer) RemoveLike(context.Context, *LikeRequest) (*StatusCode, error) {
+	return nil, status.Error(codes.Unimplemented, "method RemoveLike not implemented")
 }
 func (UnimplementedApiUsersServer) mustEmbedUnimplementedApiUsersServer() {}
 func (UnimplementedApiUsersServer) testEmbeddedByValue()                  {}
@@ -171,7 +203,7 @@ func _ApiUsers_Login_Handler(srv interface{}, ctx context.Context, dec func(inte
 }
 
 func _ApiUsers_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserRequest)
+	in := new(Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -183,13 +215,13 @@ func _ApiUsers_GetUser_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: ApiUsers_GetUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiUsersServer).GetUser(ctx, req.(*GetUserRequest))
+		return srv.(ApiUsersServer).GetUser(ctx, req.(*Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _ApiUsers_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserInput)
+	in := new(Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -201,7 +233,43 @@ func _ApiUsers_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: ApiUsers_DeleteUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiUsersServer).DeleteUser(ctx, req.(*UserInput))
+		return srv.(ApiUsersServer).DeleteUser(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiUsers_AddLike_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LikeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiUsersServer).AddLike(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiUsers_AddLike_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiUsersServer).AddLike(ctx, req.(*LikeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiUsers_RemoveLike_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LikeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiUsersServer).RemoveLike(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiUsers_RemoveLike_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiUsersServer).RemoveLike(ctx, req.(*LikeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -228,6 +296,14 @@ var ApiUsers_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteUser",
 			Handler:    _ApiUsers_DeleteUser_Handler,
+		},
+		{
+			MethodName: "AddLike",
+			Handler:    _ApiUsers_AddLike_Handler,
+		},
+		{
+			MethodName: "RemoveLike",
+			Handler:    _ApiUsers_RemoveLike_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
