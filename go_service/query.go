@@ -1,5 +1,6 @@
 package main
 
+<<<<<<< HEAD
 func QueryCreateTable() string {
 	return `
     	CREATE TABLE IF NOT EXISTS users (
@@ -57,4 +58,31 @@ func QueryAddLike() string {
 
 func QueryDelLike() string {
 	return `DELETE FROM users_like WHERE id_user=$1, id_artist=$2)`
+=======
+<<<<<<< Updated upstream
+func CreateTable() string {
+	return `CREATE TABLE User (
+		id SERIAL PRIMARY KEY
+		username VARCHAR(50) NOT NULL 
+		email text NOT NULL UNIQUE
+		pwd text NOT NULL
+		create_at DEFAULT NOW()
+	)`
+=======
+func QueryCreateTable() string {
+    return `
+    CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(50) NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        pwd TEXT NOT NULL,
+        create_at TIMESTAMP DEFAULT NOW()
+    );
+    
+    CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
+    CREATE INDEX IF NOT EXISTS idx_users_created_at ON users(create_at);
+	CREATE INDEX IF NOT EXISTS idx_users_email on users(email);
+    `
+>>>>>>> Stashed changes
+>>>>>>> 8db0ba0dbecf88af941a3ee9bff345731e3e4735
 }

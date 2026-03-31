@@ -12,6 +12,7 @@ type PostgresDB struct {
 	pool *pgxpool.Pool
 }
 
+<<<<<<< HEAD
 type StorageDB interface {
 	CreateUser(ctx context.Context, user *UserJS) error                 // C
 	ReadUserByEmail(ctx context.Context, email string) (*UserJS, error) // R
@@ -19,6 +20,23 @@ type StorageDB interface {
 	DeleateUser(ctx context.Context, user *UserJS) error                // D
 	UpdateUser(ctx context.Context, user *UserJS) error                 // U
 
+=======
+<<<<<<< Updated upstream
+type Storage interface {
+	CreateUser(ctx context.Context, user *UserJS)
+	DeleateUser(ctx context.Context, user *UserJS)
+	UpdateUser(ctx context.Context, user *UserJS)
+	InfoUser(ctx context.Context, user *UserJS)
+=======
+type StorageDB interface {
+	CreateUser(ctx context.Context, user *UserJS) error                 // C
+	ReadUserByEmail(ctx context.Context, user *UserJS) (*UserJS, error) // R
+	ReadUserById(ctx context.Context, user *UserJS) (*UserJS, error)    // R
+	DeleateUser(ctx context.Context, user *UserJS) error                // D
+	UpdateUser(ctx context.Context, user *UserJS) error                 // U
+
+>>>>>>> Stashed changes
+>>>>>>> 8db0ba0dbecf88af941a3ee9bff345731e3e4735
 	Close()
 }
 
@@ -48,6 +66,11 @@ func NewConnect(cfg *DBConfig) (*PostgresDB, error) {
 func (db *PostgresDB) Close() {
 	db.pool.Close()
 }
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> 8db0ba0dbecf88af941a3ee9bff345731e3e4735
 
 func (db *PostgresDB) CreateUser(ctx context.Context, user *UserJS) error {
 	user.Pwd, _ = HashPassword(user.Pwd)
@@ -78,6 +101,7 @@ func (db *PostgresDB) CreateUser(ctx context.Context, user *UserJS) error {
 	return nil
 }
 
+<<<<<<< HEAD
 func (db *PostgresDB) ReadUserByEmail(ctx context.Context, email string) (*UserJS, error) {
 	var user UserJS
 	err := db.pool.QueryRow(ctx, QueryInfoUserByEmail(), email).Scan(&user.ID,
@@ -95,6 +119,11 @@ func (db *PostgresDB) ReadUserByEmail(ctx context.Context, email string) (*UserJ
 func (db *PostgresDB) ReadUserById(ctx context.Context, id int32) (*UserJS, error) {
 	var user UserJS
 	err := db.pool.QueryRow(ctx, QueryInfoUserByEmail(), id).Scan(&user.ID,
+=======
+func (db *PostgresDB) InfoUser(ctx context.Context, email string) (*UserJS, error) {
+	var user UserJS
+	err := db.pool.QueryRow(ctx, QueryInfoUser(), email).Scan(&user.ID,
+>>>>>>> 8db0ba0dbecf88af941a3ee9bff345731e3e4735
 		&user.Username,
 		&user.Email,
 		&user.Pwd,
@@ -104,3 +133,7 @@ func (db *PostgresDB) ReadUserById(ctx context.Context, id int32) (*UserJS, erro
 	}
 	return &user, nil
 }
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> 8db0ba0dbecf88af941a3ee9bff345731e3e4735
