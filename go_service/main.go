@@ -1,10 +1,7 @@
 package main
 
 import (
-	"net"
-	"time"
-
-	"go.uber.org/zap"
+	"fmt"
 )
 
 func init() {
@@ -29,3 +26,4 @@ func main() {
 		loggerGRPC.Fatal("Failed to start gRPC server", zap.Error(err))
 	}
 }
+

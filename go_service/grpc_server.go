@@ -68,7 +68,7 @@ func (s *userServer) Login(ctx context.Context, req *pb.UserInput) (*pb.LoginRes
 		}, nil
 	}
 
-	userDB, err := s.db.ReadUserByEmail(context.Background(), req.GetUserEmail())
+	userDB, err := s.db.InfoUser(context.Background(), req.GetUserEmail())
 	if err != nil {
 		loggerGRPC.Error("Login failed: user not found",
 			zap.String("email", req.GetUserEmail()),
