@@ -47,6 +47,10 @@ func QueryInfoUserByName() string {
 	return `SELECT * FROM users WHERE username=$1`
 }
 
+func QueryInfoUserById() string {
+	return `SELECT * FROM users WHERE id=$1`
+}
+
 func QueryDropTable() string {
 	return `DROP TABLE IF EXISTS users`
 }

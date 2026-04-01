@@ -17,7 +17,7 @@ type JWTManager struct {
 }
 
 type UserClaims struct {
-	UserID   int    `json:"id"`
+	UserID   int32  `json:"id"`
 	Username string `json:"username"`
 	Email    string `json:"email"`
 	Role     string `json:"role"`
@@ -76,7 +76,6 @@ func (m *JWTManager) ValidateToken(tokenString string) (*UserClaims, error) {
 		jwt.WithExpirationRequired(),
 		jwt.WithLeeway(5*time.Second),
 	)
-
 	if err != nil {
 		if errors.Is(err, jwt.ErrTokenExpired) {
 			return nil, fmt.Errorf("token expired at %v", claims.ExpiresAt)

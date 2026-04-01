@@ -45,7 +45,7 @@ func (s *userServer) CreateUser(ctx context.Context, req *pb.UserInput) (*pb.Sta
 	}
 
 	loggerGRPC.Info("User registered successfully",
-		zap.Int("user_id", user.ID),
+		zap.Int32("user_id", user.ID),
 		zap.String("username", user.Username),
 		zap.String("email", user.Email))
 
@@ -68,7 +68,7 @@ func (s *userServer) Login(ctx context.Context, req *pb.UserInput) (*pb.LoginRes
 		}, nil
 	}
 
-	userDB, err := s.db.InfoUser(context.Background(), req.GetUserEmail())
+	userDB, err := s.db.ReadUserByEmail(context.Background(), req.GetUserEmail())
 	if err != nil {
 		loggerGRPC.Error("Login failed: user not found",
 			zap.String("email", req.GetUserEmail()),
@@ -82,7 +82,7 @@ func (s *userServer) Login(ctx context.Context, req *pb.UserInput) (*pb.LoginRes
 
 	if !CheckPassword(req.GetUserPassword(), userDB.Pwd) {
 		loggerGRPC.Error("Login failed: invalid password",
-			zap.Int("user_id", userDB.ID),
+			zap.Int32("user_id", userDB.ID),
 			zap.String("username", userDB.Username))
 		return &pb.LoginResponse{
 			Status:  &pb.StatusCode{Code: 401},
@@ -94,7 +94,7 @@ func (s *userServer) Login(ctx context.Context, req *pb.UserInput) (*pb.LoginRes
 	token, err := s.jwtManager.GenerateToken(userDB, "user")
 	if err != nil {
 		loggerGRPC.Error("Login failed: token generation error",
-			zap.Int("user_id", userDB.ID),
+			zap.Int32("user_id", userDB.ID),
 			zap.String("username", userDB.Username),
 			zap.Error(err))
 		return &pb.LoginResponse{
@@ -105,7 +105,7 @@ func (s *userServer) Login(ctx context.Context, req *pb.UserInput) (*pb.LoginRes
 	}
 
 	loggerGRPC.Info("User logged in successfully",
-		zap.Int("user_id", userDB.ID),
+		zap.Int32("user_id", userDB.ID),
 		zap.String("username", userDB.Username),
 		zap.String("email", userDB.Email))
 
@@ -115,6 +115,17 @@ func (s *userServer) Login(ctx context.Context, req *pb.UserInput) (*pb.LoginRes
 		Message: "Login successful",
 	}, nil
 }
+
+// func (s *userServer) AddLike(ctx context.Context, req *pb.LikeRequest) (*pb.StatusCode, error) {
+// 	md, ok := metadata.FromIncomingContext(ctx)
+// 	if !ok {
+// 		return &pb.StatusCode{Code: 404, Message: "metadata not found"}, status.Error(codes.Unauthenticated, "metadata not found")
+// 	}
+// 	authHeader := md.Get("authorization")
+// 	if len(authHeader) != 0 {
+// 		return &pb.StatusCode{Code: 404, }
+// 	}
+// }
 
 func NewGRPCServer(db *PostgresDB, jwtManager *JWTManager) *grpc.Server {
 	grpcServer := grpc.NewServer()
