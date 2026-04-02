@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Творческое пространство | Личный кабинет</title>
+    <title>Творческое пространство | Артисты</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -39,15 +39,6 @@
             to {
                 opacity: 1;
                 transform: translateX(0);
-            }
-        }
-        
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
             }
         }
         
@@ -127,12 +118,67 @@
             width: 100%;
         }
         
-        .nav-links .active {
+        /* Аватар пользователя */
+        .avatar-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b5a2b, #c49a6c);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(139,90,43,0.3);
+        }
+        
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            min-width: 180px;
+            z-index: 1000;
+            overflow: hidden;
+            border: 1px solid #eae6e1;
+        }
+        
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 16px;
+            color: #1a1a1a;
+            text-decoration: none;
+            transition: background 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .dropdown-menu a:hover {
+            background: #f5f0ea;
             color: #8b5a2b;
         }
         
-        .nav-links .active::after {
-            width: 100%;
+        .dropdown-menu a::after {
+            display: none;
+        }
+        
+        .dropdown-menu.show {
+            display: block;
+            animation: fadeIn 0.2s ease-out;
         }
         
         /* Мобильное меню */
@@ -148,97 +194,19 @@
         /* Основной контент */
         .main-content {
             margin-top: 80px;
-            min-height: calc(100vh - 80px);
-        }
-        
-        /* Герой-секция профиля */
-        .profile-hero {
-            background: linear-gradient(135deg, #2c1810 0%, #1a0f0a 100%);
-            color: white;
-            padding: 4rem 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .profile-hero::before {
-            content: '';
-position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(139,90,43,0.1) 0%, transparent 70%);
-        }
-        
-        .profile-hero-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #8b5a2b, #c49a6c);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            animation: fadeIn 0.6s ease-out;
-        }
-        
-        .profile-hero h1 {
-            font-size: 2.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            animation: fadeIn 0.7s ease-out;
-        }
-        
-        .profile-hero .profile-email {
-            font-size: 1rem;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 1rem;
-            animation: fadeIn 0.8s ease-out;
-        }
-        
-        .profile-stats {
-            display: flex;
-            gap: 2rem;
-            margin-top: 1.5rem;
-            animation: fadeIn 0.9s ease-out;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-        
-        .stat-label {
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.7);
-        }
-        
-        /* Основной контент профиля */
-        .profile-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
         }
         
         /* Сообщения */
+        .messages {
+            max-width: 1400px;
+            margin: 20px auto 0;
+            padding: 0 2rem;
+        }
+        
         .message {
             padding: 1rem 1.5rem;
             border-radius: 12px;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             animation: slideIn 0.5s ease-out;
         }
         
@@ -254,181 +222,73 @@ position: absolute;
             color: #c62828;
         }
         
-        /* Карточки */
-        .profile-card {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border: 1px solid #eae6e1;
-            transition: all 0.3s ease;
-            animation: fadeIn 0.6s ease-out;
+        .message-info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            color: #0b5e7e;
         }
         
-        .profile-card:hover {
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transform: translateY(-2px);
+        /* Герой-секция */
+        .hero {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, #fff 0%, #f5f0ea 100%);
+            border-bottom: 1px solid #eae6e1;
+            position: relative;
+            overflow: hidden;
         }
         
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #f0ede8;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139,90,43,0.03) 0%, transparent 70%);
+            animation: fadeIn 1s ease-out;
         }
         
-        .card-header h2 {
-            font-size: 1.3rem;
+        .hero h1 {
+            font-size: 4rem;
             font-weight: 600;
+            letter-spacing: -1px;
+            margin-bottom: 1.5rem;
             color: #1a1a1a;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            animation: fadeIn 0.8s ease-out;
+            position: relative;
+            z-index: 1;
         }
         
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeIn 1s ease-out;
+            position: relative;
+            z-index: 1;
         }
         
-        .info-item {
+        .hero-buttons {
+            margin-top: 2rem;
             display: flex;
-            align-items: center;
             gap: 1rem;
-            padding: 1rem;
-            background: #faf9f8;
-            border-radius: 12px;
-            transition: all 0.3s;
-        }
-        
-        .info-item:hover {
-            background: #f5f0ea;
-            transform: translateX(5px);
-        }
-        
-        .info-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #8b5a2b, #c49a6c);
-            border-radius: 10px;
-            display: flex;
-align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-        }
-        
-        .info-content {
-            flex: 1;
-        }
-        
-        .info-label {
-            font-size: 0.85rem;
-            color: #8b5a2b;
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-        }
-        
-        .info-value {
-            font-size: 1rem;
-            font-weight: 500;
-            color: #1a1a1a;
-        }
-        
-        /* Секция лайков */
-        .likes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1rem;
-        }
-        
-        .like-card {
-            background: #faf9f8;
-            border-radius: 12px;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
-            border: 1px solid #eae6e1;
-        }
-        
-        .like-card:hover {
-            background: #f5f0ea;
-            transform: translateX(5px);
-        }
-        
-        .like-info {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        
-        .like-icon {
-            font-size: 1.5rem;
-        }
-        
-        .like-artist {
-            font-weight: 500;
-            color: #1a1a1a;
-        }
-        
-        .like-date {
-            font-size: 0.8rem;
-            color: #999;
-        }
-        
-        .btn-remove {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: #999;
-            transition: all 0.3s;
-            padding: 0.5rem;
-            border-radius: 8px;
-        }
-        
-        .btn-remove:hover {
-            color: #f44336;
-            background: rgba(244,67,54,0.1);
-        }
-        
-        /* Форма добавления лайка */
-        .add-like-form {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        .like-input {
-            flex: 1;
-            padding: 0.8rem 1rem;
-            border: 1px solid #eae6e1;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-family: inherit;
-            transition: all 0.3s;
-        }
-        
-        .like-input:focus {
-            outline: none;
-            border-color: #8b5a2b;
-            box-shadow: 0 0 0 3px rgba(139,90,43,0.1);
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
         }
         
         .btn-primary {
+            display: inline-block;
             background: linear-gradient(135deg, #8b5a2b, #c49a6c);
             color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 12px;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
             font-weight: 500;
-            cursor: pointer;
             transition: all 0.3s;
-            font-family: inherit;
         }
         
         .btn-primary:hover {
@@ -436,34 +296,158 @@ align-items: center;
             box-shadow: 0 5px 15px rgba(139,90,43,0.3);
         }
         
-        .btn-logout {
-            background: linear-gradient(135deg, #dc3545, #c82333);
-            color: white;
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 12px;
+        .btn-outline {
+            display: inline-block;
+            background: transparent;
+            color: #8b5a2b;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
             font-weight: 500;
-            cursor: pointer;
+            border: 2px solid #8b5a2b;
             transition: all 0.3s;
-            font-family: inherit;
-            width: 100%;
         }
         
-        .btn-logout:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(220,53,69,0.3);
+        .btn-outline:hover {
+            background: #8b5a2b;
+            color: white;
+        }
+        /* Секция артистов */
+        .artists-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
         }
         
-        /* Пустое состояние */
-        .empty-state {
+        .section-header {
             text-align: center;
-            padding: 3rem;
-            color: #999;
+            margin-bottom: 4rem;
+            animation: fadeIn 0.6s ease-out;
         }
         
-        .empty-state-icon {
-            font-size: 3rem;
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
             margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+        
+        .section-header p {
+            color: #8b5a2b;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .artists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        .artist-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            border: 1px solid #eae6e1;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .artist-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-color: #d4cbbc;
+        }
+        
+        .artist-image {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .artist-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        
+        .artist-card:hover .artist-photo {
+            transform: scale(1.05);
+        }
+        
+        .no-photo {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #e8e0d5, #d4cbbc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            font-weight: 300;
+            color: #8b5a2b;
+        }
+        
+        .artist-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.7) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .artist-card:hover .artist-overlay {
+            opacity: 1;
+        }
+        
+        .artist-info {
+            padding: 1.5rem;
+            background: white;
+        }
+        
+        .artist-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+        
+        .artist-stats {
+            font-size: 0.9rem;
+            color: #8b5a2b;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .artist-bio {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #8b5a2b;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: gap 0.3s;
+        }
+        
+        .read-more:hover {
+            gap: 0.8rem;
         }
         
         /* Футер */
@@ -478,7 +462,7 @@ align-items: center;
             max-width: 1400px;
             margin: 0 auto;
             display: grid;
-grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 3rem;
         }
         
@@ -487,7 +471,6 @@ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             margin-bottom: 1rem;
             font-size: 1.1rem;
         }
-        
         .footer-section p {
             color: #999;
             line-height: 1.6;
@@ -525,41 +508,29 @@ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
                 display: flex;
             }
             
-            .profile-hero h1 {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .artists-section {
+                padding: 2rem 1rem;
+            }
+            
+            .section-header h2 {
                 font-size: 1.8rem;
             }
             
-            .profile-stats {
-                flex-wrap: wrap;
-                gap: 1rem;
-            }
-            
-            .info-grid {
+            .artists-grid {
                 grid-template-columns: 1fr;
             }
             
-            .add-like-form {
+            .hero-buttons {
                 flex-direction: column;
-            }
-            
-            .likes-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* Скелетон загрузки */
-        .skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-        }
-        
-        @keyframes loading {
-            0% {
-                background-position: 200% 0;
-            }
-            100% {
-                background-position: -200% 0;
+                align-items: center;
             }
         }
     </style>
@@ -568,13 +539,29 @@ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="logo">
-                <a href="{% url 'home' %}">Творческое пространство</a>
+                <a href="{% url 'artists_all' %}">Творческое пространство</a>
             </div>
             <button class="menu-toggle" id="menuToggle">☰</button>
             <div class="nav-links" id="navLinks">
-                <a href="{% url 'home' %}">Главная</a>
+                <a href="{% url 'artists_all' %}">Главная</a>
                 <a href="{% url 'global_search' %}">Поиск</a>
-                <a href="{% url 'profile' %}" class="active">Профиль</a>
+                
+                {% if is_authenticated %}
+                    <!-- Аватар пользователя -->
+                    <div class="avatar-dropdown">
+                        <div class="avatar" onclick="toggleDropdown()">
+                            {{ user_name|first|upper }}
+                        </div>
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <a href="{% url 'profile' %}">👤 Мой профиль</a>
+                            <a href="{% url 'logout' %}">🚪 Выйти</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{% url 'submit_data' %}">Войти</a>
+                    <a href="{% url 'register_page' %}">Регистрация</a>
+                {% endif %}
+                
                 {% if user.is_authenticated %}
                     <a href="/admin/">Админка</a>
                 {% endif %}
@@ -583,133 +570,65 @@ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     </nav>
     
     <div class="main-content">
+        <!-- Сообщения -->
         {% if messages %}
+        <div class="messages">
             {% for message in messages %}
-                <div class="message message-{{ message.tags }}">
-                    {{ message }}
-                </div>
+            <div class="message message-{{ message.tags }}">
+                {{ message }}
+            </div>
             {% endfor %}
+        </div>
         {% endif %}
         
-        <div class="profile-hero">
-            <div class="profile-hero-content">
-                <div class="profile-avatar">
-                    {{ user.user_name|first|upper }}
-                </div>
-                <h1>{{ user.user_name }}</h1>
-                <div class="profile-email">{{ user.user_email }}</div>
-                <div class="profile-stats">
-                    <div class="stat-item">
-                        <div class="stat-number">{{ likes_count|default:"0" }}</div>
-                        <div class="stat-label">Лайков</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">{{ favorites_count|default:"0" }}</div>
-                        <div class="stat-label">В избранном</div>
-                    </div>
-                    <div class="stat-item">
-<div class="stat-number">{{ days_registered|default:"1" }}</div>
-                        <div class="stat-label">Дней с нами</div>
-                    </div>
-                </div>
+        <div class="hero">
+            <h1>Откройте для себя<br>мир искусства и музыки</h1>
+            <p>Уникальные артисты, вдохновляющие истории и творчество без границ</p>
+            
+            {% if not is_authenticated %}
+            <div class="hero-buttons">
+                <a href="{% url 'submit_data' %}" class="btn-primary">Войти в аккаунт</a>
+                <a href="{% url 'register_page' %}" class="btn-outline">Создать аккаунт</a>
             </div>
+            {% else %}
+            <div class="hero-buttons">
+                <a href="{% url 'profile' %}" class="btn-primary">👤 Мой профиль</a>
+            </div>
+            {% endif %}
         </div>
         
-        <div class="profile-content">
-            <div class="profile-card">
-                <div class="card-header">
-                    <h2>
-                        <span>📋</span>
-                        Информация о профиле
-                    </h2>
-                </div>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <div class="info-icon">🆔</div>
-                        <div class="info-content">
-                            <div class="info-label">ID пользователя</div>
-                            <div class="info-value">{{ user.id }}</div>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-icon">👤</div>
-                        <div class="info-content">
-                            <div class="info-label">Имя пользователя</div>
-                            <div class="info-value">{{ user.user_name }}</div>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-icon">📧</div>
-                        <div class="info-content">
-                            <div class="info-label">Email</div>
-                            <div class="info-value">{{ user.user_email }}</div>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-icon">📅</div>
-                        <div class="info-content">
-                            <div class="info-label">Дата регистрации</div>
-                            <div class="info-value">{{ registered_date|default:"Недавно" }}</div>
-                        </div>
-                    </div>
-                </div>
+        <div class="artists-section">
+            <div class="section-header">
+                <h2>Наши артисты</h2>
+                <p>{{ total_count }} талантливых исполнителей</p>
             </div>
             
-            <div class="profile-card">
-                <div class="card-header">
-                    <h2>
-                        <span>❤️</span>
-                        Мои любимые артисты
-                    </h2>
-                </div>
-                
-                <form method="POST" action="{% url 'add_like' %}" class="add-like-form">
-                    {% csrf_token %}
-                    <input type="number" name="artist_id" placeholder="ID артиста" class="like-input" required>
-                    <button type="submit" class="btn-primary">➕ Добавить лайк</button>
-                </form>
-                
-                <div style="margin-top: 2rem;">
-                    {% if likes %}
-                        <div class="likes-grid">
-                            {% for like in likes %}
-                            <div class="like-card">
-                                <div class="like-info">
-                                    <div class="like-icon">🎤</div>
-                                    <div>
-                                        <div class="like-artist">Артист #{{ like.artist_id }}</div>
-                                        <div class="like-date">{{ like.added_date|default:"Недавно" }}</div>
-                                    </div>
-                                </div>
-                                <form method="POST" action="{% url 'remove_like' %}" style="margin: 0;">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="artist_id" value="{{ like.artist_id }}">
-                                    <button type="submit" class="btn-remove" title="Удалить лайк">🗑</button>
-                                </form>
+            <div class="artists-grid" id="artistsGrid">
+                {% for artist in artists %}
+                    <div class="artist-card" onclick="location.href='{% url 'artist_detail' artist.id %}'">
+                        <div class="artist-image">
+                            {% if artist.photo %}
+                                <img class="artist-photo" src="{{ artist.photo.url }}" alt="{{ artist.name }}" loading="lazy">
+                            {% else %}
+                                <div class="no-photo">{{ artist.name|first|upper }}</div>
+                            {% endif %}
+                            <div class="artist-overlay"></div>
+                        </div>
+                        <div class="artist-info">
+                            <div class="artist-name">{{ artist.name }}</div>
+                            <div class="artist-stats">
+                                <span>👥</span> {{ artist.listeners }} слушателей
+                                <span>🎵</span> {{ artist.songs.count }} песен
                             </div>
-                            {% endfor %}
+                            <div class="artist-bio">{{ artist.bio|truncatechars:100 }}</div>
+                            <span class="read-more">Узнать больше →</span>
                         </div>
-                    {% else %}
-                        <div class="empty-state">
-                            <div class="empty-state-icon">🎵</div>
-                            <p>У вас пока нет любимых артистов</p>
-<p style="font-size: 0.9rem; margin-top: 0.5rem;">Добавьте ID артиста выше, чтобы начать</p>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-            
-            <div class="profile-card">
-                <div class="card-header">
-                    <h2>
-                        <span>⚙️</span>
-                        Управление аккаунтом
-                    </h2>
-                </div>
-                <form method="POST" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn-logout">🚪 Выйти из аккаунта</button>
-                </form>
+                    </div>
+                {% empty %}
+                    <div style="text-align: center; grid-column: 1/-1; padding: 3rem;">
+                        <p>Скоро здесь появятся новые артисты</p>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -754,14 +673,43 @@ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             }
         });
         
+        // Выпадающее меню аватара
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdownMenu');
+            dropdown.classList.toggle('show');
+        }
+        
+        // Закрытие меню при клике вне его
+        window.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('dropdownMenu');
+            const avatar = document.querySelector('.avatar');
+            if (avatar && !avatar.contains(event.target) && dropdown && dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        });
+        
         // Автоматическое скрытие сообщений через 5 секунд
         setTimeout(() => {
             const messages = document.querySelectorAll('.message');
             messages.forEach(message => {
-                message.style.opacity = '0';
+        message.style.opacity = '0';
                 setTimeout(() => message.remove(), 300);
             });
         }, 5000);
+        
+        // Ленивая загрузка изображений
+        const images = document.querySelectorAll('.artist-photo');
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src || img.src;
+                    observer.unobserve(img);
+                }
+            });
+        });
+        
+        images.forEach(img => imageObserver.observe(img));
     </script>
 </body>
 </html>
