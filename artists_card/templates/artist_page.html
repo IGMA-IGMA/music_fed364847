@@ -3,8 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ artist.name }}</title>
-    <link rel="stylesheet" href="artist_page.css">
-    <script src="artist_page.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #fafafa;
+        }
+        .navbar {
+            background: #222;
+            padding: 10px;
+            color: white;
+        }
+        .navbar a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        .artist-header {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+        .artist-photo img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .song-list {
+            margin-top: 20px;
+        }
+        .song-item {
+            border-bottom: 1px solid #eee;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .song-item:hover {
+            background: #f0f0f0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
 
@@ -25,7 +76,7 @@
             {% if artist.photo %}
                 <img src="{{ artist.photo.url }}" alt="{{ artist.name }}">
             {% else %}
-                <div class="artist-photo-placeholder">Нет фото</div>
+                <div style="width:150px;height:150px;background:#ccc;display:flex;align-items:center;justify-content:center;">Нет фото</div>
             {% endif %}
         </div>
         <div>
@@ -41,7 +92,7 @@
         <h2>Песни ({{ songs_count }})</h2>
         {% if songs %}
             {% for song in songs %}
-                <div class="song-item" data-artist-name="{{ artist.name }}" data-song-title="{{ song.title }}">
+                <div class="song-item" onclick="alert('Сейчас играет: {{ artist.name }} — {{ song.title }}')">
                     <strong>{{ song.title }}</strong><br>
                     Прослушиваний: {{ song.plays }} | Длительность: {{ song.duration|default:"3:45" }}
                 </div>
