@@ -3,45 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Поиск</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f9f9f9;
-            margin: 0;
-            padding: 20px;
-        }
-        .navbar {
-            background: #333;
-            padding: 10px;
-            color: white;
-            margin-bottom: 20px;
-        }
-        .navbar a {
-            color: white;
-            margin-right: 15px;
-            text-decoration: none;
-        }
-        input, button {
-            padding: 10px;
-            font-size: 16px;
-        }
-        .artist-item, .song-item {
-            background: white;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px 0;
-            cursor: pointer;
-        }
-        .artist-item img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-        }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="search_results.css">
+    <script src="search_results.js" defer></script>
 </head>
 <body>
 
@@ -54,7 +17,7 @@
     {% endif %}
 </div>
 
-<div style="max-width: 800px; margin: auto;">
+<div class="search-container">
     <a href="{% url 'home' %}" class="back-link">← Назад</a>
 
     <form method="GET" action="{% url 'global_search' %}">
@@ -69,11 +32,11 @@
         {% if artists %}
             <h3>Артисты ({{ artists_count }})</h3>
             {% for artist in artists %}
-                <div class="artist-item" onclick="location.href='{% url 'artist_detail' artist.id %}'">
+                <div class="artist-item" data-url="{% url 'artist_detail' artist.id %}">
                     {% if artist.photo %}
                         <img src="{{ artist.photo.url }}">
                     {% else %}
-                        <div style="width:100px;height:100px;background:#ccc;">Нет фото</div>
+                        <div class="artist-photo-placeholder">Нет фото</div>
                     {% endif %}
                     <h4>{{ artist.name }}</h4>
                     <p>Слушателей: {{ artist.listeners }}</p>
@@ -84,7 +47,7 @@
         {% if songs %}
             <h3>Песни ({{ songs_count }})</h3>
             {% for song in songs %}
-                <div class="song-item" onclick="location.href='{% url 'artist_detail' song.artist.id %}'">
+                <div class="song-item" data-url="{% url 'artist_detail' song.artist.id %}">
                     <strong>{{ song.title }}</strong> — {{ song.artist.name }}
                     <br>Прослушиваний: {{ song.plays }}
                 </div>

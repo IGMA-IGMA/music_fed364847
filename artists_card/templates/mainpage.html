@@ -3,74 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Творческое пространство</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f4f4f4;
-        }
-        .navbar {
-            background: #333;
-            padding: 10px 20px;
-            color: white;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            margin-right: 20px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-        .hero {
-            background: #ddd;
-            padding: 40px;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .artist-card {
-            background: white;
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-        .artist-card img {
-            max-width: 100%;
-            height: auto;
-            max-height: 200px;
-            object-fit: cover;
-        }
-        .footer {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-        }
-        button {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            display: none;
-        }
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            button { display: block; }
-            .nav-links.active { display: block; }
-        }
-    </style>
+    <link rel="stylesheet" href="mainpage.css">
+    <script src="mainpage.js" defer></script>
 </head>
 <body>
 
 <nav class="navbar">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="navbar-inner">
         <div><strong>Творческое пространство</strong></div>
-        <button onclick="document.getElementById('navLinks').classList.toggle('active')">☰</button>
+        <button id="menuToggle" type="button">☰</button>
         <div id="navLinks" class="nav-links">
             <a href="{% url 'home' %}">Главная</a>
             <a href="{% url 'global_search' %}">Поиск</a>
@@ -91,13 +32,13 @@
     <h2>Наши артисты</h2>
     <p>Всего: {{ total_count }}</p>
 
-    <div>
+    <div class="artist-list">
         {% for artist in artists %}
-            <div class="artist-card" onclick="location.href='{% url 'artist_detail' artist.id %}'" style="cursor: pointer;">
+            <div class="artist-card" data-url="{% url 'artist_detail' artist.id %}">
                 {% if artist.photo %}
                     <img src="{{ artist.photo.url }}" alt="{{ artist.name }}">
                 {% else %}
-                    <div style="background: #ccc; height: 200px; display: flex; align-items: center; justify-content: center;">
+                    <div class="artist-photo-placeholder">
                         {{ artist.name|first|upper }}
                     </div>
                 {% endif %}

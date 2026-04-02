@@ -3,51 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Вход</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .auth-box {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            width: 300px;
-        }
-        input {
-            width: 100%;
-            padding: 8px;
-            margin: 8px 0;
-            box-sizing: border-box;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #333;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .message {
-            margin-top: 10px;
-            padding: 8px;
-            text-align: center;
-        }
-        .error {
-            background: #ffdddd;
-            color: red;
-        }
-        .success {
-            background: #ddffdd;
-            color: green;
-        }
-    </style>
+    <link rel="stylesheet" href="auth_form.css">
+    <script src="auth_form.js" defer></script>
 </head>
 <body>
 <div class="auth-box">
@@ -66,41 +23,9 @@
         <button type="submit">Войти</button>
     </form>
     <div id="message" class="message"></div>
-    <p style="margin-top: 15px; text-align: center;">
+    <p class="home-link">
         <a href="{% url 'home' %}">← На главную</a>
     </p>
 </div>
-
-<script>
-    document.getElementById('authForm').onsubmit = async function(e) {
-        e.preventDefault();
-        let formData = new FormData(this);
-        let btn = this.querySelector('button');
-        btn.disabled = true;
-        btn.innerText = 'Отправка...';
-
-        try {
-            let response = await fetch('', {
-                method: 'POST',
-                body: formData,
-                headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}
-            });
-            let data = await response.json();
-            let msgDiv = document.getElementById('message');
-            if (data.status === 'success') {
-                msgDiv.className = 'message success';
-                msgDiv.innerText = '✅ ' + data.message;
-                this.reset();
-            } else {
-                msgDiv.className = 'message error';
-                msgDiv.innerText = '❌ ' + (data.message || 'Ошибка');
-            }
-        } catch(err) {
-            document.getElementById('message').innerText = 'Ошибка соединения';
-        }
-        btn.disabled = false;
-        btn.innerText = 'Войти';
-    };
-</script>
 </body>
 </html>
