@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .auth-box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #8b5a2b;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #6b441e;
+        }
+        .message {
+            margin-top: 10px;
+            padding: 8px;
+            text-align: center;
+        }
+        .error {
+            background: #ffdddd;
+            color: red;
+        }
+        .success {
+            background: #ddffdd;
+            color: green;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .login-link a {
+            color: #8b5a2b;
+            text-decoration: none;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="auth-box">
+    <h2>Регистрация</h2>
+    <form id="registerForm">
+        {% csrf_token %}
+        <label>Имя пользователя</label>
+        <input type="text" name="username" required>
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+
+        <label>Пароль</label>
+        <input type="password" name="password" required>
+
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+    <div id="message" class="message"></div>
+    <div class="login-link">
+        Уже есть аккаунт? <a href="{% url 'submit_data' %}">Войти</a>
+    </div>
+    <p style="margin-top: 15px; text-align: center;">
+        <a href="{% url 'artists_all' %}">← На главную</a>
+    </p>
+</div>
+
+<script>
+    document.getElementById('registerForm').onsubmit = async function(e) {
+        e.preventDefault();
+        let formData = new FormData(this);
+        let btn = this.querySelector('button');
+        btn.disabled = true;
+        btn.innerText = 'Регистрация...';
+
+        try {
+            let response = await fetch('', {
+                method: 'POST',
+                body: formData,
+                headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}
+            });
+            
+            let data = await response.json();
+            let msgDiv = document.getElementById('message');
+            
+            if (data.status === 'success') {
+                msgDiv.className = 'message success';
+                msgDiv.innerText = '✅ ' + data.message;
+                setTimeout(() => {
+                    window.location.href = data.redirect_url  '/auth/';
+                }, 1000);
+            } else {
+                msgDiv.className = 'message error';
+                msgDiv.innerText = '❌ ' + (data.message  'Ошибка регистрации');
+                btn.disabled = false;
+                btn.innerText = 'Зарегистрироваться';
+            }
+        } catch(err) {
+            document.getElementById('message').innerText = '❌ Ошибка соединения с сервером';
+            btn.disabled = false;
+            btn.innerText = 'Зарегистрироваться';
+        }
+    };
+</script>
+</body>
+</html>
