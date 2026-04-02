@@ -39,5 +39,10 @@ message UserInput {
 }
 
 message LikeRequest {
-    int32 artist_id = 1;
+    TokenJWT token = 1;
+    int32 artist_id = 2;
+}
+
+message TokenJWT {
+    string token = 1;
 }

@@ -291,7 +291,8 @@ func (x *UserInput) GetUserPassword() string {
 
 type LikeRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ArtistId      int32                  `protobuf:"varint,1,opt,name=artist_id,json=artistId,proto3" json:"artist_id,omitempty"`
+	Token         *TokenJWT              `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	ArtistId      int32                  `protobuf:"varint,2,opt,name=artist_id,json=artistId,proto3" json:"artist_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -326,11 +327,62 @@ func (*LikeRequest) Descriptor() ([]byte, []int) {
 	return file_protos_message_proto_rawDescGZIP(), []int{5}
 }
 
+func (x *LikeRequest) GetToken() *TokenJWT {
+	if x != nil {
+		return x.Token
+	}
+	return nil
+}
+
 func (x *LikeRequest) GetArtistId() int32 {
 	if x != nil {
 		return x.ArtistId
 	}
 	return 0
+}
+
+type TokenJWT struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TokenJWT) Reset() {
+	*x = TokenJWT{}
+	mi := &file_protos_message_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TokenJWT) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TokenJWT) ProtoMessage() {}
+
+func (x *TokenJWT) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_message_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TokenJWT.ProtoReflect.Descriptor instead.
+func (*TokenJWT) Descriptor() ([]byte, []int) {
+	return file_protos_message_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *TokenJWT) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
 }
 
 var File_protos_message_proto protoreflect.FileDescriptor
@@ -358,9 +410,12 @@ const file_protos_message_proto_rawDesc = "" +
 	"\tuser_name\x18\x01 \x01(\tR\buserName\x12\x1d\n" +
 	"\n" +
 	"user_email\x18\x02 \x01(\tR\tuserEmail\x12#\n" +
-	"\ruser_password\x18\x03 \x01(\tR\fuserPassword\"*\n" +
-	"\vLikeRequest\x12\x1b\n" +
-	"\tartist_id\x18\x01 \x01(\x05R\bartistId2\xec\x02\n" +
+	"\ruser_password\x18\x03 \x01(\tR\fuserPassword\"V\n" +
+	"\vLikeRequest\x12*\n" +
+	"\x05token\x18\x01 \x01(\v2\x14.serverGRPC.TokenJWTR\x05token\x12\x1b\n" +
+	"\tartist_id\x18\x02 \x01(\x05R\bartistId\" \n" +
+	"\bTokenJWT\x12\x14\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token2\xec\x02\n" +
 	"\bApiUsers\x12;\n" +
 	"\n" +
 	"CreateUser\x12\x15.serverGRPC.UserInput\x1a\x16.serverGRPC.StatusCode\x129\n" +
@@ -384,7 +439,7 @@ func file_protos_message_proto_rawDescGZIP() []byte {
 	return file_protos_message_proto_rawDescData
 }
 
-var file_protos_message_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_protos_message_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_protos_message_proto_goTypes = []any{
 	(*Empty)(nil),         // 0: serverGRPC.Empty
 	(*LoginResponse)(nil), // 1: serverGRPC.LoginResponse
@@ -392,27 +447,29 @@ var file_protos_message_proto_goTypes = []any{
 	(*UserOutput)(nil),    // 3: serverGRPC.UserOutput
 	(*UserInput)(nil),     // 4: serverGRPC.UserInput
 	(*LikeRequest)(nil),   // 5: serverGRPC.LikeRequest
+	(*TokenJWT)(nil),      // 6: serverGRPC.TokenJWT
 }
 var file_protos_message_proto_depIdxs = []int32{
 	2, // 0: serverGRPC.LoginResponse.status:type_name -> serverGRPC.StatusCode
 	3, // 1: serverGRPC.LoginResponse.user:type_name -> serverGRPC.UserOutput
-	4, // 2: serverGRPC.ApiUsers.CreateUser:input_type -> serverGRPC.UserInput
-	4, // 3: serverGRPC.ApiUsers.Login:input_type -> serverGRPC.UserInput
-	0, // 4: serverGRPC.ApiUsers.GetUser:input_type -> serverGRPC.Empty
-	0, // 5: serverGRPC.ApiUsers.DeleteUser:input_type -> serverGRPC.Empty
-	5, // 6: serverGRPC.ApiUsers.AddLike:input_type -> serverGRPC.LikeRequest
-	5, // 7: serverGRPC.ApiUsers.RemoveLike:input_type -> serverGRPC.LikeRequest
-	2, // 8: serverGRPC.ApiUsers.CreateUser:output_type -> serverGRPC.StatusCode
-	1, // 9: serverGRPC.ApiUsers.Login:output_type -> serverGRPC.LoginResponse
-	3, // 10: serverGRPC.ApiUsers.GetUser:output_type -> serverGRPC.UserOutput
-	2, // 11: serverGRPC.ApiUsers.DeleteUser:output_type -> serverGRPC.StatusCode
-	2, // 12: serverGRPC.ApiUsers.AddLike:output_type -> serverGRPC.StatusCode
-	2, // 13: serverGRPC.ApiUsers.RemoveLike:output_type -> serverGRPC.StatusCode
-	8, // [8:14] is the sub-list for method output_type
-	2, // [2:8] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	6, // 2: serverGRPC.LikeRequest.token:type_name -> serverGRPC.TokenJWT
+	4, // 3: serverGRPC.ApiUsers.CreateUser:input_type -> serverGRPC.UserInput
+	4, // 4: serverGRPC.ApiUsers.Login:input_type -> serverGRPC.UserInput
+	0, // 5: serverGRPC.ApiUsers.GetUser:input_type -> serverGRPC.Empty
+	0, // 6: serverGRPC.ApiUsers.DeleteUser:input_type -> serverGRPC.Empty
+	5, // 7: serverGRPC.ApiUsers.AddLike:input_type -> serverGRPC.LikeRequest
+	5, // 8: serverGRPC.ApiUsers.RemoveLike:input_type -> serverGRPC.LikeRequest
+	2, // 9: serverGRPC.ApiUsers.CreateUser:output_type -> serverGRPC.StatusCode
+	1, // 10: serverGRPC.ApiUsers.Login:output_type -> serverGRPC.LoginResponse
+	3, // 11: serverGRPC.ApiUsers.GetUser:output_type -> serverGRPC.UserOutput
+	2, // 12: serverGRPC.ApiUsers.DeleteUser:output_type -> serverGRPC.StatusCode
+	2, // 13: serverGRPC.ApiUsers.AddLike:output_type -> serverGRPC.StatusCode
+	2, // 14: serverGRPC.ApiUsers.RemoveLike:output_type -> serverGRPC.StatusCode
+	9, // [9:15] is the sub-list for method output_type
+	3, // [3:9] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_protos_message_proto_init() }
@@ -426,7 +483,7 @@ func file_protos_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_protos_message_proto_rawDesc), len(file_protos_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

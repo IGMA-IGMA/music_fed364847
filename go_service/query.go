@@ -55,10 +55,14 @@ func QueryDropTable() string {
 	return `DROP TABLE IF EXISTS users`
 }
 
+func QueryIsUser() string{
+    return "SELECT EXISTS (SELECT 1 FROM users WHERE id=$1 AND username=$2 AND email=$3)"
+}
+
 func QueryAddLike() string {
 	return `INSERT INTO users_like(id_user, id_artist, create_at) VALUES ($1, $2, NOW())`
 }
 
-func QueryDelLike() string {
+func QueryRemoveLike() string {
 	return `DELETE FROM users_like WHERE id_user=$1 AND id_artist=$2`
 }

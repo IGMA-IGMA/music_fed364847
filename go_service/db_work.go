@@ -18,6 +18,7 @@ type StorageDB interface {
 	ReadUserById(ctx context.Context, id int32) (*UserJS, error)
 	DeleteUser(ctx context.Context, user *UserJS) error
 	UpdateUser(ctx context.Context, user *UserJS) error
+	isUser(ctx context.Context, user *UserJS) bool
 
 	AddLike(ctx context.Context, id_user, id_artist int32) error
 	RemoveLike(ctx context.Context, id_user, id_artist int32) error
@@ -168,7 +169,37 @@ func (db *PostgresDB) DeleteUser(ctx context.Context, user *UserJS) error {
 	return nil
 }
 
+func (db *PostgresDB) isUser(ctx context.Context, user *UserJS) bool {
+	loggerDB.Info("Checking if user exists",
+		zap.Int32("id", user.ID),
+		zap.String("username", user.Username),
+		zap.String("email", user.Email))
 
+	var exists bool
+	err := db.pool.QueryRow(ctx, QueryIsUser(), user.ID, user.Username, user.Email).Scan(&exists)
+	if err != nil {
+		loggerDB.Error("Failed to check user existence",
+			zap.Int32("id", user.ID),
+			zap.String("username", user.Username),
+			zap.String("email", user.Email),
+			zap.Error(err))
+		return false
+	}
+
+	if exists {
+		loggerDB.Debug("User exists in database",
+			zap.Int32("id", user.ID),
+			zap.String("username", user.Username),
+			zap.String("email", user.Email))
+	} else {
+		loggerDB.Debug("User does not exist in database",
+			zap.Int32("id", user.ID),
+			zap.String("username", user.Username),
+			zap.String("email", user.Email))
+	}
+
+	return exists
+}
 
 func (db *PostgresDB) AddLike(ctx context.Context, id_user, id_artist int32) error {
 	loggerDB.Debug("Adding like",
@@ -195,7 +226,7 @@ func (db *PostgresDB) RemoveLike(ctx context.Context, id_user, id_artist int32) 
 		zap.Int32("user_id", id_user),
 		zap.Int32("artist_id", id_artist))
 
-	_, err := db.pool.Exec(ctx, QueryDelLike(), id_user, id_artist)
+	_, err := db.pool.Exec(ctx, QueryRemoveLike(), id_user, id_artist)
 	if err != nil {
 		loggerDB.Error("Failed to remove like",
 			zap.Int32("user_id", id_user),
