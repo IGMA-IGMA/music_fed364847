@@ -66,3 +66,7 @@ func QueryAddLike() string {
 func QueryRemoveLike() string {
 	return `DELETE FROM users_like WHERE id_user=$1 AND id_artist=$2`
 }
+
+func QueryAllLikeUser() string{
+    return `SELECT id_artist FROM users_like WHERE id_user=$1`
+}
